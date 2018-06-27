@@ -1,5 +1,6 @@
 package com.example.android.postest;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -34,7 +35,14 @@ public class MainActivity extends AppCompatActivity {
                         menuItem.setChecked(true);
                         // close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
-
+                        int id = menuItem.getItemId();
+                        if (id == R.id.nav_transaksi) {
+                            Intent transaksi = new Intent(MainActivity.this, MainActivity.class);
+                            startActivity(transaksi);
+                        }else if(id == R.id.nav_barang){
+                            Intent barang = new Intent(MainActivity.this,BarangActivity.class);
+                            startActivity(barang);
+                        }
                         // Add code here to update the UI based on the item selected
                         // For example, swap UI fragments here
 
@@ -49,7 +57,12 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
 }
