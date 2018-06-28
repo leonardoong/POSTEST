@@ -67,6 +67,4 @@ public class SQLite extends SQLiteOpenHelper {
                     cursor.getInt(3),cursor.getString(4) ));
         }
     }
-
-
 }
