@@ -21,7 +21,7 @@ public class BarangActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barang);
-
+        rv = (RecyclerView)findViewById(R.id.recview);
         mTambahBarang = (Button)findViewById(R.id.tambahBarang);
         mTambahBarang.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,7 +37,7 @@ public class BarangActivity extends AppCompatActivity {
         //memanggil method readdata
         dbBarang.ReadData(listBarang);
 
-        rv = (RecyclerView)findViewById(R.id.recview);
+
         adapter = new BarangAdapter(this, listBarang);
 
         rv.setHasFixedSize(true);

@@ -27,13 +27,13 @@ public class SQLite extends SQLiteOpenHelper {
         super(context, nama_db, null, 1);
         this.cntx = context;
         db = this.getWritableDatabase();
-        db.execSQL("create table if not exists "+tabel_barang+ "(" + brg_id + " integer primary key" +
+        db.execSQL("create table if not exists "+tabel_barang+ "(" + brg_id + " integer primary key autoincrement not null" +
                 "," +brg_nama+" varchar(35), "+brg_harga+ " integer, "+brg_stok+ " integer, "+brg_deskripsi+" varchar(100))");
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table if not exists "+tabel_barang+ "(" + brg_id + " integer primary key" +
+        db.execSQL("create table if not exists "+tabel_barang+ "(" + brg_id + " integer primary key autoincrement not null" +
                 "," +brg_nama+" varchar(35), "+brg_harga+ " integer, "+brg_stok+ " integer, "+brg_deskripsi+" varchar(100))");
     }
 
@@ -46,7 +46,6 @@ public class SQLite extends SQLiteOpenHelper {
     public boolean createBarang(Barang list){
 
         ContentValues val = new ContentValues();
-        val.put(brg_id, list.getId());
         val.put(brg_nama, list.getNama());
         val.put(brg_harga, list.getHarga());
         val.put(brg_stok, list.getStock());
@@ -64,7 +63,7 @@ public class SQLite extends SQLiteOpenHelper {
         Cursor cursor = this.getReadableDatabase().rawQuery("select id, nama, harga, stok,deskripsi from "
                 +tabel_barang, null);
         while (cursor.moveToNext()){
-            daftar.add(new Barang(cursor.getInt(0), cursor.getString(1), cursor.getInt(2),
+            daftar.add(new Barang(cursor.getString(1), cursor.getInt(2),
                     cursor.getInt(3),cursor.getString(4) ));
         }
     }

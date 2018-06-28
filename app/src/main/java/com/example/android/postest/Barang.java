@@ -5,24 +5,24 @@ package com.example.android.postest;
  */
 
 public class Barang {
-    int id, harga, stock;
+    int harga, stock;
     String nama, deskripsi;
 
-    public Barang(int id, String nama, int harga, int stock, String deskripsi){
-        this.id = id;
+    public Barang( String nama, int harga, int stock, String deskripsi){
+        //this.id = id;
         this.harga = harga;
         this.stock = stock;
         this.nama = nama;
         this.deskripsi = deskripsi;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     public int getHarga() {
         return harga;

@@ -34,7 +34,7 @@ public class TambahBarangActivity extends AppCompatActivity {
         mSimpanBarang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int id = 1;
+
                 String namaBarang = mNamaBarang.getText().toString();
                 String hargaBarang = mHargaBarang.getText().toString();
                 String stokBarang = mStok.getText().toString();
@@ -57,7 +57,7 @@ public class TambahBarangActivity extends AppCompatActivity {
                             int intHarga = Integer.parseInt(hargaBarang);
                             int intStok = Integer.parseInt(stokBarang);
 
-                            database.createBarang(new Barang((id), (namaBarang), (intHarga), (intStok), (deskripsi)));
+                            database.createBarang(new Barang((namaBarang), (intHarga), (intStok), (deskripsi)));
 
                             Toast.makeText(TambahBarangActivity.this, "Barang berhasil ditambahkan", Toast.LENGTH_SHORT).show();
 
