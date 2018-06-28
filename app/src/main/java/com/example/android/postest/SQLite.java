@@ -17,8 +17,10 @@ import java.util.List;
  */
 
 public class SQLite extends SQLiteOpenHelper {
+    private static final String KOLOM_BRG_GAMBAR = "gambar";
     Context cntx;
     SQLiteDatabase db;
+
     public static final String NAMA_DATABASE = "pos";
     public static final String TABEL_BARANG = "TABEL_BARANG";
     public static final String KOLOM_BRG_ID = "id";
@@ -38,7 +40,8 @@ public class SQLite extends SQLiteOpenHelper {
 
 
     private String CREATE_ITEM_TABLE = "create table if not exists "+ TABEL_BARANG + "(" + KOLOM_BRG_ID + " integer primary key autoincrement not null" +
-            "," + KOLOM_BRG_NAMA +" varchar(35), "+ KOLOM_BRG_HARGA + " integer, "+ KOLOM_BRG_STOK + " integer, "+ KOLOM_BRG_DESKRIPSI +" varchar(100))" ;
+            "," + KOLOM_BRG_NAMA +" varchar(35), "+ KOLOM_BRG_HARGA + " integer, "+ KOLOM_BRG_STOK + " integer, "+ KOLOM_BRG_DESKRIPSI +" varchar(100), "+
+            KOLOM_BRG_GAMBAR + " blob)" ;
 
     private String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_USER + "("
             + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME + " TEXT,"
@@ -53,6 +56,7 @@ public class SQLite extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         db.execSQL(CREATE_ITEM_TABLE);
         db.execSQL(CREATE_USER_TABLE);
     }
@@ -63,28 +67,31 @@ public class SQLite extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public boolean createBarang(Barang list){
+    public boolean createBarang(Barang list) {
 
         ContentValues val = new ContentValues();
+
         val.put(KOLOM_BRG_NAMA, list.getNama());
         val.put(KOLOM_BRG_HARGA, list.getHarga());
         val.put(KOLOM_BRG_STOK, list.getStock());
         val.put(KOLOM_BRG_DESKRIPSI, list.getDeskripsi());
+        val.put(KOLOM_BRG_GAMBAR, list.getGambar());
         long hasil = db.insert(TABEL_BARANG, null, val);
         if (hasil==-1) {
             return false;
 
-        }else {
+        } else {
             return true;
         }
     }
+
 
     public void ReadData(ArrayList<Barang> daftar){
         Cursor cursor = this.getReadableDatabase().rawQuery("select id, nama, harga, stok,deskripsi from "
                 + TABEL_BARANG, null);
         while (cursor.moveToNext()){
             daftar.add(new Barang(cursor.getString(1), cursor.getInt(2),
-                    cursor.getInt(3),cursor.getString(4) ));
+                    cursor.getInt(3), cursor.getString(4), cursor.getBlob(5)));
         }
     }
 

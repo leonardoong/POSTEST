@@ -7,13 +7,15 @@ package com.example.android.postest.Objek;
 public class Barang {
     int harga, stock;
     String nama, deskripsi;
+    byte[] gambar;
 
-    public Barang( String nama, int harga, int stock, String deskripsi){
+    public Barang( String nama, int harga, int stock, String deskripsi, byte[] gambar){
         //this.id = id;
         this.harga = harga;
         this.stock = stock;
         this.nama = nama;
         this.deskripsi = deskripsi;
+        this.gambar = gambar;
     }
 
 //    public int getId() {
@@ -23,6 +25,14 @@ public class Barang {
 //    public void setId(int id) {
 //        this.id = id;
 //    }
+
+    public byte[] getGambar() {
+        return gambar;
+    }
+
+    public void setGambar(byte[] gambar) {
+        this.gambar = gambar;
+    }
 
     public int getHarga() {
         return harga;
