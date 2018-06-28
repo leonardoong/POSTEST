@@ -9,6 +9,8 @@ import android.widget.TextView;
 import android.support.v7.widget.CardView;
 
 
+import com.example.android.postest.Objek.Barang;
+
 import java.util.List;
 
 /**

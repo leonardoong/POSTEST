@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">POS TEST</string>
+    <string name="error_message_name">Isi Terlebih dahulu</string>
+    <string name="error_message_email">isi email terlebih dahulu</string>
+    <string name="error_message_password">isi password terlebih dahulu</string>
+    <string name="error_password_match">email / password tidak sesuai</string>
 </resources>

@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.IllegalFormatCodePointException;
+import com.example.android.postest.Objek.Barang;
 
 public class TambahBarangActivity extends AppCompatActivity {
 

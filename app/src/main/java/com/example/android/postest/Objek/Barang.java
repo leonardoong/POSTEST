@@ -1,4 +1,4 @@
-package com.example.android.postest;
+package com.example.android.postest.Objek;
 
 /**
  * Created by Leonardo on 6/27/2018.
