@@ -1,4 +1,4 @@
-package com.example.android.postest;
+package com.example.android.postest.Validation;
 
 /**
  * Created by Aulia Ramadhan on 28/06/2018.
@@ -14,7 +14,6 @@ import android.view.inputmethod.InputMethodManager;
 
 public class InputValidation {
     private Context context;
-
     /**
      * constructor
      *

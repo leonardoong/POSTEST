@@ -19,12 +19,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.android.postest.Database.SQLite;
 import com.example.android.postest.Objek.Barang;
-import java.io.ByteArrayInputStream;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.IllegalFormatCodePointException;
 
 public class TambahBarangActivity extends AppCompatActivity{
 

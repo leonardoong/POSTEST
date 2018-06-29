@@ -7,18 +7,32 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
+
+import com.example.android.postest.Adapter.BarangAdapter;
+import com.example.android.postest.Adapter.BarangTransaksiAdapter;
+import com.example.android.postest.Database.SQLite;
+import com.example.android.postest.Objek.Barang;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
+    private RecyclerView rv;
+    BarangTransaksiAdapter adapter;
+    SQLite dbBarang;
+    ArrayList<Barang> listBarang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mDrawerLayout = findViewById(R.id.drawer_layout);
+        rv = (RecyclerView)findViewById(R.id.recViewTransaksi);
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -49,6 +63,19 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+
+        listBarang = new ArrayList<>();
+        //membuat database baru
+        dbBarang = new SQLite(this);
+        //memanggil method readdata
+        dbBarang.ReadData(listBarang);
+
+
+        adapter = new BarangTransaksiAdapter(this,listBarang);
+
+        rv.setHasFixedSize(true);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        rv.setAdapter(adapter);
     }
 
     @Override

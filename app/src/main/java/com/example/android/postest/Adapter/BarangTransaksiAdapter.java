@@ -1,4 +1,4 @@
-package com.example.android.postest;
+package com.example.android.postest.Adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.support.v7.widget.CardView;
 
 import com.example.android.postest.Objek.Barang;
+import com.example.android.postest.R;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
@@ -20,11 +21,11 @@ import java.util.List;
  * Created by Leonardo on 6/27/2018.
  */
 
-public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.holder> {
+public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksiAdapter.holder> {
     private Context cntx;
     private List<Barang> list;
 
-    public BarangAdapter(Context cntx, List<Barang> list){
+    public BarangTransaksiAdapter(Context cntx, List<Barang> list){
         this.cntx=cntx;
         this.list=list;
     }
@@ -32,7 +33,7 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.holder> {
     @Override
     public holder onCreateViewHolder(ViewGroup parent, int viewType) {
         //membuat view baru
-        View view = LayoutInflater.from(cntx).inflate(R.layout.barang_layout, parent, false);
+        View view = LayoutInflater.from(cntx).inflate(R.layout.transaksi_layout, parent, false);
         holder hldr = new holder(view);
         return hldr;
     }
@@ -65,8 +66,8 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.holder> {
             super(itemView);
 
             //mengakses id text view pada layout dan juga cardview
-            namaBarang = itemView.findViewById(R.id.txtNamaBarang);
-            gambarBarang = itemView.findViewById(R.id.ivImgBarang);
+            namaBarang = itemView.findViewById(R.id.txtTBarang);
+            gambarBarang = itemView.findViewById(R.id.ivTBarang);
             cardv = itemView.findViewById(R.id.cardlist);
         }
     }

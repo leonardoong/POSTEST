@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.android.postest.Adapter.BarangAdapter;
+import com.example.android.postest.Database.SQLite;
 import com.example.android.postest.Objek.Barang;
 
 import java.util.ArrayList;
@@ -92,7 +94,6 @@ public class BarangActivity extends AppCompatActivity {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
-
         }
         return super.onOptionsItemSelected(item);
     }

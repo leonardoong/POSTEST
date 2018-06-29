@@ -11,7 +11,9 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
+import com.example.android.postest.Database.SQLite;
 import com.example.android.postest.Objek.User;
+import com.example.android.postest.Validation.InputValidation;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 

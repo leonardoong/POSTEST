@@ -1,4 +1,4 @@
-package com.example.android.postest;
+package com.example.android.postest.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -70,7 +70,7 @@ public class SQLite extends SQLiteOpenHelper {
     public boolean createBarang(Barang list) {
 
         ContentValues val = new ContentValues();
-
+        db = getWritableDatabase();
         val.put(KOLOM_BRG_NAMA, list.getNama());
         val.put(KOLOM_BRG_HARGA, list.getHarga());
         val.put(KOLOM_BRG_STOK, list.getStock());
@@ -87,7 +87,7 @@ public class SQLite extends SQLiteOpenHelper {
 
 
     public void ReadData(ArrayList<Barang> daftar){
-        Cursor cursor = this.getReadableDatabase().rawQuery("select id, nama, harga, stok,deskripsi from "
+        Cursor cursor = this.getReadableDatabase().rawQuery("select id, nama, harga, stok,deskripsi, gambar from "
                 + TABEL_BARANG, null);
         while (cursor.moveToNext()){
             daftar.add(new Barang(cursor.getString(1), cursor.getInt(2),
