@@ -1,5 +1,7 @@
 package com.example.android.postest.Objek;
 
+import android.content.Intent;
+
 /**
  * Created by Leonardo on 6/27/2018.
  */
@@ -65,4 +67,5 @@ public class Barang {
     public void setDeskripsi(String deskripsi) {
         this.deskripsi = deskripsi;
     }
+
 }
