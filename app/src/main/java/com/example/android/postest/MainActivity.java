@@ -7,10 +7,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.ButtonBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.android.postest.Adapter.BarangAdapter;
 import com.example.android.postest.Adapter.BarangTransaksiAdapter;
@@ -23,9 +26,11 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private RecyclerView rv;
+    private Button mCheckout;
     BarangTransaksiAdapter adapter;
     SQLite dbBarang;
     ArrayList<Barang> listBarang;
+    int totalHarga;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mDrawerLayout = findViewById(R.id.drawer_layout);
         rv = (RecyclerView)findViewById(R.id.recViewTransaksi);
+        mCheckout = findViewById(R.id.btnCheckout);
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -69,13 +75,24 @@ public class MainActivity extends AppCompatActivity {
         dbBarang = new SQLite(this);
         //memanggil method readdata
         dbBarang.ReadData(listBarang);
+        totalHarga = 0;
 
-
-        adapter = new BarangTransaksiAdapter(this,listBarang);
+        adapter = new BarangTransaksiAdapter(this, listBarang, new SetOnItemRecycleListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                int harga = listBarang.get(position).getHarga();
+                mCheckout.setText("checkout : " + String.valueOf(returnTotalHarga(harga)));
+            }
+        });
 
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
+    }
+
+    public int returnTotalHarga(int harga) {
+        totalHarga += harga;
+        return totalHarga;
     }
 
     @Override
