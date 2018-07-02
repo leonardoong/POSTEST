@@ -21,7 +21,7 @@ import java.util.List;
  * Created by Leonardo on 6/27/2018.
  */
 
-public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.holder> {
+public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.holder>  {
     private Context cntx;
     private List<Barang> list;
 
@@ -57,7 +57,7 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.holder> {
         return list.get(position);
     }
 
-    class holder extends RecyclerView.ViewHolder{
+    class holder extends RecyclerView.ViewHolder {
         //deklarasi variable yang akan digunakan
         public TextView namaBarang;
         public ImageView gambarBarang;
@@ -70,6 +70,13 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.holder> {
             gambarBarang = itemView.findViewById(R.id.ivImgBarang);
             cardv = itemView.findViewById(R.id.cardlist);
         }
+
+//        @Override
+//        public void onClick(View v) {
+//
+//        }
+
+
     }
 }
 

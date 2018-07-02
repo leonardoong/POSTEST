@@ -38,6 +38,14 @@ public class SQLite extends SQLiteOpenHelper {
     private static final String COLUMN_USER_EMAIL = "user_email";
     private static final String COLUMN_USER_PASSWORD = "user_password";
 
+    private static final String TABLE_TRANSAKSI = "TABEL_TRANSAKSI";
+
+    private static final String KOLOM_TRN_ID = "id";
+    private static final String KOLOM_TRN_TANGGAL = "tanggal";
+    private static final String KOLOM_TRN_CUSTOMER = "nama_customer";
+    private static final String KOLOM_TRN_USER = "user_name";
+    private static final String KOLOM_TRN_TOTAL = "total_penjualan";
+
 
     private String CREATE_ITEM_TABLE = "create table if not exists "+ TABEL_BARANG + "(" + KOLOM_BRG_ID + " integer primary key autoincrement not null" +
             "," + KOLOM_BRG_NAMA +" varchar(35), "+ KOLOM_BRG_HARGA + " integer, "+ KOLOM_BRG_STOK + " integer, "+ KOLOM_BRG_DESKRIPSI +" varchar(100), "+
@@ -47,16 +55,21 @@ public class SQLite extends SQLiteOpenHelper {
             + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME + " TEXT,"
             + COLUMN_USER_EMAIL + " TEXT," + COLUMN_USER_PASSWORD + " TEXT" + ")";
 
+    private String CREATE_TABEL_TRANSAKSI = "CREATE TABLE IF NOT EXISTS " + TABLE_TRANSAKSI + "( " +KOLOM_TRN_ID+ "INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + KOLOM_TRN_TANGGAL + " DATE, " + KOLOM_TRN_CUSTOMER + " TEXT, " + KOLOM_TRN_USER + "TEXT, " + KOLOM_TRN_TOTAL +
+            " INTEGER)";
+
     public SQLite(Context context){
         super(context, NAMA_DATABASE, null, 1);
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(CREATE_ITEM_TABLE);
         db.execSQL(CREATE_USER_TABLE);
+        db.execSQL(CREATE_TABEL_TRANSAKSI);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        db.execSQL(CREATE_TABEL_TRANSAKSI);
         db.execSQL(CREATE_ITEM_TABLE);
         db.execSQL(CREATE_USER_TABLE);
     }
@@ -64,6 +77,7 @@ public class SQLite extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("drop table if exists "+ TABEL_BARANG);
+        sqLiteDatabase.execSQL("drop table if exists "+ CREATE_TABEL_TRANSAKSI);
         onCreate(sqLiteDatabase);
     }
 
@@ -84,7 +98,7 @@ public class SQLite extends SQLiteOpenHelper {
             return true;
         }
     }
-
+    
 
     public void ReadData(ArrayList<Barang> daftar){
         Cursor cursor = this.getReadableDatabase().rawQuery("select id, nama, harga, stok,deskripsi, gambar from "
@@ -284,4 +298,6 @@ public class SQLite extends SQLiteOpenHelper {
 
         return false;
     }
+
+
 }

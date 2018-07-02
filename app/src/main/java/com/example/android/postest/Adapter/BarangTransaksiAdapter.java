@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.android.postest.Objek.Barang;
 import com.example.android.postest.R;
+import com.example.android.postest.SetOnItemRecycleListener;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
@@ -23,8 +24,10 @@ import java.util.List;
  */
 
 public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksiAdapter.holder> {
+
     private Context cntx;
     private List<Barang> list;
+    private SetOnItemRecycleListener mItemClickListener;
 
     class holder extends RecyclerView.ViewHolder{
         //deklarasi variable yang akan digunakan
@@ -40,36 +43,36 @@ public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksi
             cardv = itemView.findViewById(R.id.cardViewTransaksi);
         }
     }
+    public BarangTransaksiAdapter(Context cntx, List<Barang> list, SetOnItemRecycleListener mItemClickListener){
 
-    public BarangTransaksiAdapter(Context cntx, List<Barang> list){
         this.cntx=cntx;
         this.list=list;
+        this.mItemClickListener = mItemClickListener;
     }
 
     @Override
     public holder onCreateViewHolder(ViewGroup parent, int viewType) {
         //membuat view baru
         View view = LayoutInflater.from(cntx).inflate(R.layout.transaksi_layout, parent, false);
-        holder hldr = new holder(view);
+        final holder hldr = new holder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItemClickListener.onItemClick(v, hldr.getAdapterPosition());
+            }
+        });
         return hldr;
     }
 
     @Override
     public void onBindViewHolder(holder holder, int position) {
-        final Barang data = list.get(position);
+        Barang data = list.get(position);
         holder.namaBarang.setText(data.getNama());
         byte[] test = data.getGambar();
         ByteArrayInputStream imageStream = new ByteArrayInputStream(test);
         Bitmap theImage= BitmapFactory.decodeStream(imageStream);
         holder.gambarBarang.setImageBitmap(theImage);
 
-        holder.cardv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int hargaBarang = data.getHarga();
-                Toast.makeText(view.getContext(), ""+hargaBarang, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override

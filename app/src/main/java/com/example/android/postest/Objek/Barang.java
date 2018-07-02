@@ -1,15 +1,24 @@
 package com.example.android.postest.Objek;
 
+import android.content.Intent;
+
+import java.io.Serializable;
+
 /**
  * Created by Leonardo on 6/27/2018.
  */
 
-public class Barang {
+public class Barang implements Serializable{
     int harga, stock;
     String nama, deskripsi;
     byte[] gambar;
 
-    public Barang( String nama, int harga, int stock, String deskripsi, byte[] gambar){
+    public Barang( String nama, int harga) {
+        this.harga = harga;
+        this.nama = nama;
+    }
+
+    public Barang(String nama, int harga, int stock, String deskripsi, byte[] gambar){
         //this.id = id;
         this.harga = harga;
         this.stock = stock;
@@ -65,4 +74,5 @@ public class Barang {
     public void setDeskripsi(String deskripsi) {
         this.deskripsi = deskripsi;
     }
+
 }
