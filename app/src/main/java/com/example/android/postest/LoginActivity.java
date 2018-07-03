@@ -1,6 +1,8 @@
 package com.example.android.postest;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -13,7 +15,11 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.android.postest.Database.SQLite;
+import com.example.android.postest.Objek.User;
 import com.example.android.postest.Validation.InputValidation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -33,6 +39,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private InputValidation inputValidation;
     private SQLite databaseHelper;
+
+    ArrayList<User> userList;
+    User user;
+    String username, dbEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +101,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.appCompatButtonLogin:
                 verifyFromSQLite();
+
                 break;
             case R.id.textViewLinkRegister:
                 // Navigate to RegisterActivity
@@ -113,16 +124,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!inputValidation.isInputEditTextFilled(textInputEditTextPassword, textInputLayoutPassword, "isi dulu passwordnya")) {
             return;
         }
-
-        if (databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim()
-                , textInputEditTextPassword.getText().toString().trim())) {
-
+        String email = textInputEditTextEmail.getText().toString().trim();
+        String password= textInputEditTextPassword.getText().toString().trim();
+        if (databaseHelper.checkUser(email, password)) {
+//            Cursor c = databaseHelper.getUsername(email);
+//            if(c.getCount()>0)
+//            {
+//                c.moveToPosition(0);
+//                String username = c.getString(c.getColumnIndex("user_name"));
+//                SharedPreferences.Editor prefs = getSharedPreferences("userSession", MODE_PRIVATE).edit();
+//                prefs.putString("username", username);
+//                prefs.apply();
+//            }
+//            databaseHelper.close();
+            userList = databaseHelper.getAllUser();
+            for (int i = 0; i < userList.size(); i++ ){
+                user = userList.get(i);
+                dbEmail = user.getEmail();
+                if(dbEmail.equals(email)){
+                    user = userList.get(i);
+                    username = user.getName();
+                }
+            }
+            SharedPreferences.Editor prefs = getSharedPreferences("userSession", MODE_PRIVATE).edit();
+                prefs.putString("username", username);
+                prefs.apply();
 
             Intent accountsIntent = new Intent(activity, MainActivity.class);
             emptyInputEditText();
             startActivity(accountsIntent);
-
-            Toast.makeText(this,"belum daftar",Toast.LENGTH_SHORT).show();
 
         } else {
             // Snack Bar to show success message that record is wrong

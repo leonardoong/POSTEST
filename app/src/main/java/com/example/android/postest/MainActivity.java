@@ -67,10 +67,12 @@ public class MainActivity extends AppCompatActivity {
                         }else if(id == R.id.nav_barang){
                             Intent barang = new Intent(MainActivity.this,BarangActivity.class);
                             startActivity(barang);
+                        }else if(id ==R.id.nav_riwayat){
+                            Intent barang = new Intent(MainActivity.this,RiwayatActivity.class);
+                            startActivity(barang);
                         }
                         // Add code here to update the UI based on the item selected
                         // For example, swap UI fragments here
-
                         return true;
                     }
                 });
@@ -122,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
-
         }
         return super.onOptionsItemSelected(item);
     }

@@ -11,29 +11,34 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
-import com.example.android.postest.Adapter.BarangAdapter;
+import com.example.android.postest.Adapter.BarangTransaksiAdapter;
+import com.example.android.postest.Adapter.TransaksiAdapter;
 import com.example.android.postest.Database.SQLite;
 import com.example.android.postest.Objek.Barang;
+import com.example.android.postest.Objek.Transaksi;
 
 import java.util.ArrayList;
 
-public class BarangActivity extends AppCompatActivity {
+public class RiwayatActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
-    private Button mTambahBarang;
     private RecyclerView rv;
-    BarangAdapter adapter;
-    SQLite dbBarang;
-    ArrayList<Barang> listBarang;
+
+    TransaksiAdapter adapter;
+    String namaBarang;
+
+    SQLite dbTransaksi;
+    ArrayList<Transaksi> listTransaksi;
+    int totalHarga;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_barang);
-        rv = (RecyclerView)findViewById(R.id.recview);
+        setContentView(R.layout.activity_riwayat);
         mDrawerLayout = findViewById(R.id.drawer_layout);
+        rv = (RecyclerView)findViewById(R.id.recViewTransaksi);
+
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,40 +57,28 @@ public class BarangActivity extends AppCompatActivity {
                         mDrawerLayout.closeDrawers();
                         int id = menuItem.getItemId();
                         if (id == R.id.nav_transaksi) {
-                            Intent transaksi = new Intent(BarangActivity.this, MainActivity.class);
+                            Intent transaksi = new Intent(RiwayatActivity.this, MainActivity.class);
                             startActivity(transaksi);
                         }else if(id == R.id.nav_barang){
-                            Intent barang = new Intent(BarangActivity.this,BarangActivity.class);
+                            Intent barang = new Intent(RiwayatActivity.this,BarangActivity.class);
                             startActivity(barang);
                         }else if(id ==R.id.nav_riwayat){
-                            Intent barang = new Intent(BarangActivity.this,RiwayatActivity.class);
+                            Intent barang = new Intent(RiwayatActivity.this,RiwayatActivity.class);
                             startActivity(barang);
                         }
                         // Add code here to update the UI based on the item selected
                         // For example, swap UI fragments here
-
                         return true;
                     }
                 });
 
-        mTambahBarang = (Button)findViewById(R.id.tambahBarang);
-        mTambahBarang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent tambahBarang = new Intent(BarangActivity.this, TambahBarangActivity.class);
-                startActivity(tambahBarang);
-            }
-        });
-
-        listBarang = new ArrayList<>();
+        listTransaksi = new ArrayList<>();
         //membuat database baru
-        dbBarang = new SQLite(this);
+        dbTransaksi = new SQLite(this);
         //memanggil method readdata
-        dbBarang.ReadData(listBarang);
+        dbTransaksi.ReadTransaksi(listTransaksi);
 
-
-        adapter = new BarangAdapter(this, listBarang);
-
+        adapter = new TransaksiAdapter(this, listTransaksi);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);

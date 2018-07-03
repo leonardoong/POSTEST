@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    android:layout_marginVertical="4dp"
+    >
+
+    <TextView
+        android:id="@+id/txtCustomer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="fbnm"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+
+    <TextView
+        android:id="@+id/txttotalpenjualan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtCustomer"
+        android:text="vbnm"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+    <TextView
+        android:id="@+id/txtUser"
+        android:layout_alignBottom="@+id/txttotalpenjualan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cvbnm"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"/>
+
+    <TextView
+        android:id="@+id/txtTanggalPembelian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="cvbnm"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:layout_below="@id/txttotalpenjualan"/>
+
+    <View
+        android:layout_below="@+id/txtTanggalPembelian"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#151515"
+        android:layout_marginHorizontal="-10dp"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

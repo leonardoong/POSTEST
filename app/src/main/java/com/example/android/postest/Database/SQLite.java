@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.android.postest.Objek.Barang;
+import com.example.android.postest.Objek.Transaksi;
 import com.example.android.postest.Objek.User;
 
 import java.util.ArrayList;
@@ -46,6 +47,13 @@ public class SQLite extends SQLiteOpenHelper {
     private static final String KOLOM_TRN_USER = "user_name";
     private static final String KOLOM_TRN_TOTAL = "total_penjualan";
 
+    private static final String TABEL_DETAIL_TRANSAKSI = "TABEL_DETAIL_TRANSAKSI";
+
+    private static final String KOLOM_DTL_TRN = "id_transaksi";
+    private static final String KOLOM_DTL_BRG = "id_brg";
+    private static final String KOLOM_DTL_JUMLAH = "jumlah_brg";
+    private static final String KOLOM_DTL_TOTAL_HARGA = "total_harga";
+
 
     private String CREATE_ITEM_TABLE = "create table if not exists "+ TABEL_BARANG + "(" + KOLOM_BRG_ID + " integer primary key autoincrement not null" +
             "," + KOLOM_BRG_NAMA +" varchar(35), "+ KOLOM_BRG_HARGA + " integer, "+ KOLOM_BRG_STOK + " integer, "+ KOLOM_BRG_DESKRIPSI +" varchar(100), "+
@@ -56,8 +64,11 @@ public class SQLite extends SQLiteOpenHelper {
             + COLUMN_USER_EMAIL + " TEXT," + COLUMN_USER_PASSWORD + " TEXT" + ")";
 
     private String CREATE_TABEL_TRANSAKSI = "CREATE TABLE IF NOT EXISTS " + TABLE_TRANSAKSI + "( " + KOLOM_TRN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-            + KOLOM_TRN_TANGGAL + " DATE, " + KOLOM_TRN_CUSTOMER + " TEXT, " + KOLOM_TRN_USER + " TEXT, " + KOLOM_TRN_TOTAL +
+            + KOLOM_TRN_TANGGAL + " DATE, " + KOLOM_TRN_CUSTOMER + " TEXT, " + KOLOM_TRN_USER + "  TEXT, " + KOLOM_TRN_TOTAL +
             " INTEGER)";
+
+    private String CREATE_TABEL_DETAIL_TRANSAKSI = "CREATE TABLE IF NOT EXISTS " + TABEL_DETAIL_TRANSAKSI + " (" + KOLOM_DTL_TRN +
+            " INT, " + KOLOM_DTL_BRG + " INT, " + KOLOM_DTL_JUMLAH + "INT, " + KOLOM_DTL_TOTAL_HARGA+ "INT)";
 
     public SQLite(Context context){
         super(context, NAMA_DATABASE, null, 1);
@@ -65,6 +76,7 @@ public class SQLite extends SQLiteOpenHelper {
         db.execSQL(CREATE_ITEM_TABLE);
         db.execSQL(CREATE_USER_TABLE);
         db.execSQL(CREATE_TABEL_TRANSAKSI);
+        db.execSQL(CREATE_TABEL_DETAIL_TRANSAKSI);
     }
 
     @Override
@@ -72,12 +84,15 @@ public class SQLite extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABEL_TRANSAKSI);
         db.execSQL(CREATE_ITEM_TABLE);
         db.execSQL(CREATE_USER_TABLE);
+        db.execSQL(CREATE_TABEL_DETAIL_TRANSAKSI);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("drop table if exists "+ TABEL_BARANG);
-        sqLiteDatabase.execSQL("drop table if exists "+ CREATE_TABEL_TRANSAKSI);
+        sqLiteDatabase.execSQL("drop table if exists "+ TABLE_TRANSAKSI);
+        sqLiteDatabase.execSQL("drop table if exists "+ TABEL_DETAIL_TRANSAKSI);
+        sqLiteDatabase.execSQL("drop table if exists "+ TABLE_USER);
         onCreate(sqLiteDatabase);
     }
 
@@ -98,7 +113,42 @@ public class SQLite extends SQLiteOpenHelper {
             return true;
         }
     }
-    
+
+    public boolean createTransaksi(Transaksi list) {
+
+        ContentValues val = new ContentValues();
+        db = getWritableDatabase();
+        val.put(KOLOM_TRN_TANGGAL, list.getTanggal());
+        val.put(KOLOM_TRN_CUSTOMER, list.getCustomer());
+        val.put(KOLOM_TRN_USER, list.getUser());
+        val.put(KOLOM_TRN_TOTAL,list.getTotalPenjualan());
+        long hasil = db.insert(TABLE_TRANSAKSI, null, val);
+        if (hasil==-1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+
+    public void ReadTransaksi(ArrayList<Transaksi> daftar){
+        Cursor cursor = this.getReadableDatabase().rawQuery("select * from "
+                + TABLE_TRANSAKSI, null);
+        while (cursor.moveToNext()){
+            daftar.add(new Transaksi(cursor.getString(1), cursor.getString(2),
+                    cursor.getString(3), cursor.getInt(4)));
+        }
+    }
+
+    public void ReadUser(ArrayList<User> daftar){
+        Cursor cursor = this.getReadableDatabase().rawQuery("select * from "
+                + TABLE_USER, null);
+        while (cursor.moveToNext()){
+            daftar.add(new User(cursor.getString(1), cursor.getString(2),
+                    cursor.getString(3)));
+        }
+    }
 
     public void ReadData(ArrayList<Barang> daftar){
         Cursor cursor = this.getReadableDatabase().rawQuery("select id, nama, harga, stok,deskripsi, gambar from "
@@ -108,6 +158,15 @@ public class SQLite extends SQLiteOpenHelper {
                     cursor.getInt(3), cursor.getString(4), cursor.getBlob(5)));
         }
     }
+
+//    --------------------------------------------------------------------------------
+
+
+
+//    public Cursor getUsername(String email)
+//    {
+//        return db.rawQuery("select * from "+ TABLE_USER +" where user_email="+email, null);
+//    }
 
 //    --------------------------------------------------------------------
 
@@ -129,7 +188,7 @@ public class SQLite extends SQLiteOpenHelper {
      *
      * @return list
      */
-    public List<User> getAllUser() {
+    public ArrayList<User> getAllUser() {
         // array of columns to fetch
         String[] columns = {
                 COLUMN_USER_ID,
@@ -140,7 +199,7 @@ public class SQLite extends SQLiteOpenHelper {
         // sorting orders
         String sortOrder =
                 COLUMN_USER_NAME + " ASC";
-        List<User> userList = new ArrayList<User>();
+        ArrayList<User> userList = new ArrayList<User>();
 
         SQLiteDatabase db = this.getReadableDatabase();
 

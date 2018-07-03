@@ -9,6 +9,18 @@
     tools:context="com.example.android.postest.CashActivity">
 
     <TextView
+        android:id="@+id/tvNamaCustomer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nama Customer:"/>
+
+    <EditText
+        android:id="@+id/etNamaCustomer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nama"/>
+
+    <TextView
         android:id="@+id/txtTotalHarga"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

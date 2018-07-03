@@ -16,5 +16,10 @@
             android:title="Barang"
             android:visible="true" />
 
+        <item
+            android:id="@+id/nav_riwayat"
+            android:title="Riwayat"
+            android:visible="true" />
+
     </group>
 </menu>
