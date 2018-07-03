@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical"
+    tools:context="com.example.android.postest.CashActivity">
+
+    <TextView
+        android:id="@+id/txtTotalHarga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="dad"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>
+
+    <EditText
+        android:id="@+id/txtTotalCash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Rp 5,000.00"/>
+
+    <Button
+        android:id="@+id/btnCharge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Charge"
+        android:paddingVertical="6dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"/>
+
+</LinearLayout>
