@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.android.postest.Objek.Barang;
+import com.example.android.postest.Objek.Transaksi;
 import com.example.android.postest.Objek.User;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class SQLite extends SQLiteOpenHelper {
             + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME + " TEXT,"
             + COLUMN_USER_EMAIL + " TEXT," + COLUMN_USER_PASSWORD + " TEXT" + ")";
 
-    private String CREATE_TABEL_TRANSAKSI = "CREATE TABLE IF NOT EXISTS " + TABLE_TRANSAKSI + "( " +KOLOM_TRN_ID+ "INTEGER PRIMARY KEY AUTOINCREMENT, "
+    private String CREATE_TABEL_TRANSAKSI = "CREATE TABLE IF NOT EXISTS " + TABLE_TRANSAKSI + "( " +KOLOM_TRN_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + KOLOM_TRN_TANGGAL + " DATE, " + KOLOM_TRN_CUSTOMER + " TEXT, " + KOLOM_TRN_USER + "TEXT, " + KOLOM_TRN_TOTAL +
             " INTEGER)";
 
@@ -98,7 +99,32 @@ public class SQLite extends SQLiteOpenHelper {
             return true;
         }
     }
-    
+
+    public boolean createTransaksi(Transaksi list) {
+
+        ContentValues val = new ContentValues();
+        db = getWritableDatabase();
+        val.put(KOLOM_TRN_TANGGAL, list.getTanggal());
+        val.put(KOLOM_TRN_CUSTOMER, list.getCustomer());
+        val.put(KOLOM_TRN_USER, list.getUser());
+        val.put(KOLOM_TRN_TOTAL,list.getTotalPenjualan());
+        long hasil = db.insert(CREATE_TABEL_TRANSAKSI, null, val);
+        if (hasil==-1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public void ReadTransaksi(ArrayList<Transaksi> daftar){
+        Cursor cursor = this.getReadableDatabase().rawQuery("select * from "
+                + CREATE_TABEL_TRANSAKSI, null);
+        while (cursor.moveToNext()){
+            daftar.add(new Transaksi(cursor.getString(1), cursor.getString(2),
+                    cursor.getString(3), cursor.getInt(4)));
+        }
+    }
+
 
     public void ReadData(ArrayList<Barang> daftar){
         Cursor cursor = this.getReadableDatabase().rawQuery("select id, nama, harga, stok,deskripsi, gambar from "
