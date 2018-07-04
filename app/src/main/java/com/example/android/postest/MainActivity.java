@@ -35,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
     int totalHarga;
 
     ArrayList<Barang> arrBarang = new ArrayList<>();
-
+    ArrayList<Barang> arrayBarang;
+    int idBarang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +90,15 @@ public class MainActivity extends AppCompatActivity {
                 mCheckout.setText("CHECKOUT : " + String.valueOf(returnTotalHarga(harga)));
                 String hargaBarang = String.valueOf(harga);
                 namaBarang = listBarang.get(position).getNama();
-                Barang barang = new Barang(namaBarang, harga);
+
+                arrayBarang = dbBarang.getAllBarang();
+                for (int i =0; i < arrayBarang.size(); i++){
+                    Barang barang1 = arrayBarang.get(i);
+                    if(namaBarang.equals(barang1.getNama())){
+                        idBarang = barang1.getId();
+                    }
+                }
+                Barang barang = new Barang(idBarang,namaBarang, harga);
                 arrBarang.add(barang);
             }
         });

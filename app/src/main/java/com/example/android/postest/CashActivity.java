@@ -14,10 +14,15 @@ import java.text.SimpleDateFormat;
 
 import com.example.android.postest.Database.SQLite;
 import com.example.android.postest.Objek.Barang;
+import com.example.android.postest.Objek.DetailTransaksi;
 import com.example.android.postest.Objek.Transaksi;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 public class CashActivity extends AppCompatActivity {
 
@@ -26,6 +31,12 @@ public class CashActivity extends AppCompatActivity {
     Button mCharge;
     String harga, cash, customer, tanggal;
     SQLite database;
+    ArrayList<Barang> arrBarang, listBarang;
+    ArrayList<Integer> arrId = new ArrayList<Integer>();
+    ArrayList<Transaksi> arrTransaksi;
+    Barang barang;
+    Transaksi transaksi;
+    int idBarang, idTransaksi, jumlah;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +50,9 @@ public class CashActivity extends AppCompatActivity {
 
         database = new SQLite(this);
 
-        Intent i = getIntent();
+        final Intent i = getIntent();
         harga = i.getStringExtra("totalHarga");
+        arrBarang = (ArrayList<Barang>)i.getSerializableExtra("arrBarang");
 
         mharga.setText(harga);
 
@@ -54,7 +66,7 @@ public class CashActivity extends AppCompatActivity {
                 int intHarga = Integer.parseInt(harga);
                 if (TextUtils.isEmpty(cash) || TextUtils.isEmpty(customer)){
                     Toast.makeText(CashActivity.this, "Lengkapi data", Toast.LENGTH_SHORT).show();
-                }else if (intCash < intHarga || TextUtils.isEmpty(customer)){
+                }else if (intCash < intHarga && TextUtils.isEmpty(customer)){
                     Toast.makeText(CashActivity.this, "Uang yang dimasukkan kurang dan lengkapi data", Toast.LENGTH_SHORT).show();
                 }else if (intCash < intHarga){
                     Toast.makeText(CashActivity.this, "Uang yang dimasukkan kurang", Toast.LENGTH_SHORT).show();
@@ -62,10 +74,38 @@ public class CashActivity extends AppCompatActivity {
                     SharedPreferences prefs = getSharedPreferences("userSession", MODE_PRIVATE);
                     String user = prefs.getString("username", "");
                     database.createTransaksi(new Transaksi((tanggal),(customer),(user),(intHarga)));
+                    //String namaBarang;
+                    listBarang = database.getAllBarang();
+
+//                    for (int i = 0; i < arrBarang.size(); i ++){
+//                        barang = arrBarang.get(i);
+//                        Barang barang1 = listBarang.get(i);
+//                        idBarang = barang.getId();
+//                        if(idBarang == barang1.getId()){
+//                            jumlah++;
+//                        }else if(idBarang != barang1.getId()){
+//                            database.createDetailTransaksi(new DetailTransaksi((2),(idBarang),(jumlah)));
+//                            jumlah = 0;
+//                        }
+//                    }
+                    arrTransaksi = database.getAllTransaksi();
+                    transaksi = arrTransaksi.get(arrTransaksi.size() - 1);
+                    idTransaksi = transaksi.getId();
+
+                    for (int i = 0; i < arrBarang.size(); i++){
+                        barang = arrBarang.get(i);
+                        idBarang = barang.getId();
+                        arrId.add(idBarang);
+                    }
+                    Set<Integer> unique = new HashSet<Integer>(arrId);
+                    for (Integer key : unique) {
+                        database.createDetailTransaksi(new DetailTransaksi((idTransaksi),(key),(Collections.frequency(arrId,key))));
+                    }
 
                     Intent i = new Intent( CashActivity.this, ReceiptActivity.class);
                     i.putExtra("totalHarga",harga);
                     i.putExtra("totalCash",cash);
+
                     startActivity(i);
                 }
             }
