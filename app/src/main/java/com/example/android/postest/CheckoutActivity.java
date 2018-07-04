@@ -32,7 +32,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
         Intent data = getIntent();
         final String strHarga = data.getStringExtra("totalHarga");
-        ArrayList<Barang> arrBarang = (ArrayList<Barang>)data.getSerializableExtra("arrayList");
+        final ArrayList<Barang> arrBarang = (ArrayList<Barang>)data.getSerializableExtra("arrayList");
 
         totalHarga.setText(strHarga);
         CheckoutAdapter adapter = new CheckoutAdapter
@@ -44,6 +44,7 @@ public class CheckoutActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(CheckoutActivity.this, CashActivity.class);
                 i.putExtra("totalHarga", strHarga);
+                i.putExtra("arrBarang", arrBarang);
                 startActivity(i);
             }
         });

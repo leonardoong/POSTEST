@@ -6,13 +6,25 @@ package com.example.android.postest.Objek;
 
 public class Transaksi {
     String tanggal, customer, user;
-    int totalPenjualan;
+    int totalPenjualan, id;
 
     public Transaksi(String tanggal, String customer, String user, int totalPenjualan) {
-        this.tanggal = tanggal;
-        this.customer = customer;
-        this.user = user;
+            this.tanggal = tanggal;
+            this.customer = customer;
+            this.user = user;
         this.totalPenjualan = totalPenjualan;
+    }
+
+    public Transaksi(){
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTanggal() {

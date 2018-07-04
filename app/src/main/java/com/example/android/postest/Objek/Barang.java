@@ -9,14 +9,26 @@ import java.io.Serializable;
  */
 
 public class Barang implements Serializable{
-    int harga, stock;
+    int harga, stock, id;
     String nama, deskripsi;
     byte[] gambar;
 
-    public Barang( String nama, int harga) {
+    public Barang(){
+
+    }
+
+    public Barang(int id, String nama, int harga) {
+        this.id = id;
         this.harga = harga;
         this.nama = nama;
     }
+
+    public Barang(String nama, int harga) {
+        this.harga = harga;
+        this.nama = nama;
+    }
+
+
 
     public Barang(String nama, int harga, int stock, String deskripsi, byte[] gambar){
         //this.id = id;
@@ -27,13 +39,13 @@ public class Barang implements Serializable{
         this.gambar = gambar;
     }
 
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
+      public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public byte[] getGambar() {
         return gambar;

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.android.postest.Objek.Barang;
+import com.example.android.postest.Objek.DetailTransaksi;
 import com.example.android.postest.Objek.Transaksi;
 import com.example.android.postest.Objek.User;
 
@@ -52,7 +53,7 @@ public class SQLite extends SQLiteOpenHelper {
     private static final String KOLOM_DTL_TRN = "id_transaksi";
     private static final String KOLOM_DTL_BRG = "id_brg";
     private static final String KOLOM_DTL_JUMLAH = "jumlah_brg";
-    private static final String KOLOM_DTL_TOTAL_HARGA = "total_harga";
+
 
 
     private String CREATE_ITEM_TABLE = "create table if not exists "+ TABEL_BARANG + "(" + KOLOM_BRG_ID + " integer primary key autoincrement not null" +
@@ -68,7 +69,7 @@ public class SQLite extends SQLiteOpenHelper {
             " INTEGER)";
 
     private String CREATE_TABEL_DETAIL_TRANSAKSI = "CREATE TABLE IF NOT EXISTS " + TABEL_DETAIL_TRANSAKSI + " (" + KOLOM_DTL_TRN +
-            " INT, " + KOLOM_DTL_BRG + " INT, " + KOLOM_DTL_JUMLAH + "INT, " + KOLOM_DTL_TOTAL_HARGA+ "INT)";
+            " INT, " + KOLOM_DTL_BRG + " INT, " + KOLOM_DTL_JUMLAH + " INT)";
 
     public SQLite(Context context){
         super(context, NAMA_DATABASE, null, 1);
@@ -130,6 +131,20 @@ public class SQLite extends SQLiteOpenHelper {
         }
     }
 
+    public boolean createDetailTransaksi(DetailTransaksi list) {
+
+        ContentValues val = new ContentValues();
+        db = getWritableDatabase();
+        val.put(KOLOM_DTL_TRN, list.getIdTransaksi());
+        val.put(KOLOM_DTL_BRG, list.getIdBarang());
+        val.put(KOLOM_DTL_JUMLAH, list.getJumlah());
+        long hasil = db.insert(TABEL_DETAIL_TRANSAKSI, null, val);
+        if (hasil==-1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 
     public void ReadTransaksi(ArrayList<Transaksi> daftar){
@@ -141,14 +156,14 @@ public class SQLite extends SQLiteOpenHelper {
         }
     }
 
-    public void ReadUser(ArrayList<User> daftar){
+    public void ReadDetailTransaksi(ArrayList<DetailTransaksi> daftar){
         Cursor cursor = this.getReadableDatabase().rawQuery("select * from "
-                + TABLE_USER, null);
+                + TABEL_DETAIL_TRANSAKSI, null);
         while (cursor.moveToNext()){
-            daftar.add(new User(cursor.getString(1), cursor.getString(2),
-                    cursor.getString(3)));
+            daftar.add(new DetailTransaksi(cursor.getInt(1),cursor.getInt(2),cursor.getInt(3)));
         }
     }
+
 
     public void ReadData(ArrayList<Barang> daftar){
         Cursor cursor = this.getReadableDatabase().rawQuery("select id, nama, harga, stok,deskripsi, gambar from "
@@ -181,6 +196,110 @@ public class SQLite extends SQLiteOpenHelper {
         // Inserting Row
         db.insert(TABLE_USER, null, values);
         db.close();
+    }
+
+    public ArrayList<Barang> getAllBarang() {
+        // array of columns to fetch
+        String[] columns = {
+                KOLOM_BRG_ID,
+                KOLOM_BRG_NAMA,
+                KOLOM_BRG_HARGA,
+                KOLOM_BRG_STOK,
+                KOLOM_BRG_DESKRIPSI,
+                KOLOM_BRG_GAMBAR
+        };
+        // sorting orders
+        String sortOrder =
+                KOLOM_BRG_ID + " ASC";
+        ArrayList<Barang> barangList = new ArrayList<Barang>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // query the user table
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_id,user_name,user_email,user_password FROM user ORDER BY user_name;
+         */
+        Cursor cursor = db.query(TABEL_BARANG, //Table to query
+                columns,    //columns to return
+                null,        //columns for the WHERE clause
+                null,        //The values for the WHERE clause
+                null,       //group the rows
+                null,       //filter by row groups
+                sortOrder); //The sort order
+
+
+        // Traversing through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Barang barang = new Barang();
+                barang.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(KOLOM_BRG_ID))));
+                barang.setNama(cursor.getString(cursor.getColumnIndex(KOLOM_BRG_NAMA)));
+                barang.setHarga(Integer.parseInt(cursor.getString(cursor.getColumnIndex(KOLOM_BRG_HARGA))));
+                barang.setStock(Integer.parseInt(cursor.getString(cursor.getColumnIndex(KOLOM_BRG_STOK))));
+                barang.setDeskripsi(cursor.getString(cursor.getColumnIndex(KOLOM_BRG_DESKRIPSI)));
+                barang.setGambar(cursor.getBlob(cursor.getColumnIndex(KOLOM_BRG_GAMBAR)));
+                // Adding user record to list
+                barangList.add(barang);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        // return user list
+        return barangList;
+    }
+
+    public ArrayList<Transaksi> getAllTransaksi() {
+        // array of columns to fetch
+        String[] columns = {
+                KOLOM_TRN_ID,
+                KOLOM_TRN_TANGGAL,
+                KOLOM_TRN_CUSTOMER,
+                KOLOM_TRN_USER,
+                KOLOM_TRN_TOTAL
+        };
+        // sorting orders
+        String sortOrder =
+                KOLOM_TRN_ID + " ASC";
+        ArrayList<Transaksi> transaksiList = new ArrayList<Transaksi>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // query the user table
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_id,user_name,user_email,user_password FROM user ORDER BY user_name;
+         */
+        Cursor cursor = db.query(TABLE_TRANSAKSI, //Table to query
+                columns,    //columns to return
+                null,        //columns for the WHERE clause
+                null,        //The values for the WHERE clause
+                null,       //group the rows
+                null,       //filter by row groups
+                sortOrder); //The sort order
+
+
+        // Traversing through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Transaksi transaksi = new Transaksi();
+                transaksi.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(KOLOM_TRN_ID))));
+                transaksi.setTanggal(cursor.getString(cursor.getColumnIndex(KOLOM_TRN_TANGGAL)));
+                transaksi.setCustomer(cursor.getString(cursor.getColumnIndex(KOLOM_TRN_CUSTOMER)));
+                transaksi.setUser(cursor.getString(cursor.getColumnIndex(KOLOM_TRN_USER)));
+                transaksi.setTotalPenjualan(Integer.parseInt(cursor.getString(cursor.getColumnIndex(KOLOM_TRN_TOTAL))));
+                // Adding user record to list
+                transaksiList.add(transaksi);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        // return user list
+        return transaksiList;
     }
 
     /**
