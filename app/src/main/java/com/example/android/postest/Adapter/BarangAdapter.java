@@ -1,6 +1,7 @@
 package com.example.android.postest.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.CardView;
 
+import com.example.android.postest.DetailBarangActivity;
 import com.example.android.postest.Objek.Barang;
 import com.example.android.postest.R;
 
@@ -40,12 +42,23 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.holder>  {
 
     @Override
     public void onBindViewHolder(holder holder, int position) {
-        Barang data = list.get(position);
+        final Barang data = list.get(position);
         holder.namaBarang.setText(data.getNama());
         byte[] test = data.getGambar();
         ByteArrayInputStream imageStream = new ByteArrayInputStream(test);
         Bitmap theImage= BitmapFactory.decodeStream(imageStream);
         holder.gambarBarang.setImageBitmap(theImage);
+        holder.cardv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(cntx, DetailBarangActivity.class);
+                int idbarang = data.getId();
+                i.putExtra("idBarang", String.valueOf(idbarang));
+
+                cntx.startActivity(i);
+            }
+        });
+
     }
 
     @Override
@@ -62,6 +75,8 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.holder>  {
         public TextView namaBarang;
         public ImageView gambarBarang;
         public CardView cardv;
+        public int id;
+
         public holder(View itemView){
             super(itemView);
 
@@ -70,6 +85,7 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.holder>  {
             gambarBarang = itemView.findViewById(R.id.ivImgBarang);
             cardv = itemView.findViewById(R.id.cardlist);
         }
+
 
 //        @Override
 //        public void onClick(View v) {

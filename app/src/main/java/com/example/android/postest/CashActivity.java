@@ -10,12 +10,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 import com.example.android.postest.Database.SQLite;
 import com.example.android.postest.Objek.Barang;
 import com.example.android.postest.Objek.DetailTransaksi;
 import com.example.android.postest.Objek.Transaksi;
+import com.example.android.postest.Validation.NumberTextWatcher;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,13 +59,21 @@ public class CashActivity extends AppCompatActivity {
 
         mharga.setText(harga);
 
+        mCash.addTextChangedListener(new NumberTextWatcher(mCash, "#,###"));
+
+
+
         mCharge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final DecimalFormat df;
+                df = new DecimalFormat("#,###");
+                df.setDecimalSeparatorAlwaysShown(true);
                 tanggal = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
                 cash = mCash.getText().toString();
+                cash = cash.replace(String.valueOf(df.getDecimalFormatSymbols().getGroupingSeparator()), "").replace("Rp","");
                 customer = mCustomer.getText().toString();
-                int intCash = Integer.parseInt(cash);
+                int intCash = (int)Float.parseFloat(cash);
                 int intHarga = Integer.parseInt(harga);
                 if (TextUtils.isEmpty(cash) || TextUtils.isEmpty(customer)){
                     Toast.makeText(CashActivity.this, "Lengkapi data", Toast.LENGTH_SHORT).show();
@@ -100,15 +111,22 @@ public class CashActivity extends AppCompatActivity {
                     Set<Integer> unique = new HashSet<Integer>(arrId);
                     for (Integer key : unique) {
                         database.createDetailTransaksi(new DetailTransaksi((idTransaksi),(key),(Collections.frequency(arrId,key))));
+                        database.updateBarang(new Barang(key, getStock(key) - Collections.frequency(arrId,key)));
                     }
 
                     Intent i = new Intent( CashActivity.this, ReceiptActivity.class);
                     i.putExtra("totalHarga",harga);
-                    i.putExtra("totalCash",cash);
+                    i.putExtra("totalCash",intCash);
 
                     startActivity(i);
                 }
             }
         });
+    }
+    public int getStock( int id){
+        // Goes through the List of schools.
+
+        int stok = database.getBarang(String.valueOf(id)).getStock();
+        return stok;
     }
 }

@@ -19,12 +19,11 @@ public class ReceiptActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         String totalHarga = i.getStringExtra("totalHarga");
-        String totalCash = i.getStringExtra("totalCash");
+        int cash = i.getIntExtra("totalCash", 0);
 
         tvTotalHarga.setText(totalHarga);
-        tvTotalCash.setText(totalCash);
+        tvTotalCash.setText(String.valueOf(cash));
         int harga = Integer.parseInt(totalHarga);
-        int cash = Integer.parseInt(totalCash);
         int kembali = cash - harga;
         String totalKembali = String.valueOf(kembali);
 

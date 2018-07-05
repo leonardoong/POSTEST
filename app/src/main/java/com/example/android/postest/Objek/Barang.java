@@ -28,10 +28,30 @@ public class Barang implements Serializable{
         this.nama = nama;
     }
 
+    public Barang(int id, int stock) {
+        this.stock = stock;
+        this.id = id;
+    }
 
+    public Barang(String nama, int harga, int stock, String deskripsi){
+        //this.id = id;
+        this.harga = harga;
+        this.stock = stock;
+        this.nama = nama;
+        this.deskripsi = deskripsi;
+    }
 
     public Barang(String nama, int harga, int stock, String deskripsi, byte[] gambar){
         //this.id = id;
+        this.harga = harga;
+        this.stock = stock;
+        this.nama = nama;
+        this.deskripsi = deskripsi;
+        this.gambar = gambar;
+    }
+
+    public Barang(int id, String nama, int harga, int stock, String deskripsi, byte[] gambar){
+        this.id = id;
         this.harga = harga;
         this.stock = stock;
         this.nama = nama;

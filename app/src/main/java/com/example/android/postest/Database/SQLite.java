@@ -169,13 +169,77 @@ public class SQLite extends SQLiteOpenHelper {
         Cursor cursor = this.getReadableDatabase().rawQuery("select id, nama, harga, stok,deskripsi, gambar from "
                 + TABEL_BARANG, null);
         while (cursor.moveToNext()){
-            daftar.add(new Barang(cursor.getString(1), cursor.getInt(2),
+            daftar.add(new Barang(cursor.getInt(0), cursor.getString(1), cursor.getInt(2),
                     cursor.getInt(3), cursor.getString(4), cursor.getBlob(5)));
         }
     }
 
 //    --------------------------------------------------------------------------------
 
+
+    public Barang getBarang(String id) {
+
+        Barang barang = null;
+        // array of columns to fetch
+        String[] columns = {
+                KOLOM_BRG_ID, KOLOM_BRG_NAMA, KOLOM_BRG_HARGA, KOLOM_BRG_STOK, KOLOM_BRG_DESKRIPSI, KOLOM_BRG_GAMBAR
+        };
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // selection criteria
+        String selection = KOLOM_BRG_ID + " = ?";
+
+        // selection argument
+        String[] selectionArgs = {id};
+
+        // query user table with condition
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_id FROM user WHERE user_email = 'jack@androidtutorialshub.com';
+         */
+        Cursor cursor = db.query(TABEL_BARANG, //Table to query
+                columns,                    //columns to return
+                selection,                  //columns for the WHERE clause
+                selectionArgs,              //The values for the WHERE clause
+                null,                       //group the rows
+                null,                      //filter by row groups
+                null);                      //The sort order
+        if (cursor.getCount() > 0 && cursor != null){
+        if (cursor.moveToFirst()){
+        barang = new Barang(
+                cursor.getString(1),
+                Integer.parseInt(cursor.getString(2)),
+                Integer.parseInt(cursor.getString(3)),
+                cursor.getString(4),
+                cursor.getBlob(5)
+        );}}
+
+        cursor.close();
+        db.close();
+
+        return barang;
+    }
+
+    public void updateBarang(Barang barang) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        if ( !(barang.getNama() == null)){
+        values.put(KOLOM_BRG_NAMA, barang.getNama());
+        values.put(KOLOM_BRG_HARGA, barang.getHarga());
+        values.put(KOLOM_BRG_STOK, barang.getStock());
+        values.put(KOLOM_BRG_DESKRIPSI, barang.getDeskripsi());}
+        else {
+            values.put(KOLOM_BRG_STOK, barang.getStock());
+        }
+
+        // updating row
+        db.update(TABEL_BARANG, values, KOLOM_BRG_ID + " = ?",
+                new String[]{String.valueOf(barang.getId())});
+        db.close();
+    }
 
 
 //    public Cursor getUsername(String email)
