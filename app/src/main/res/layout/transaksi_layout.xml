@@ -19,14 +19,12 @@
         android:layout_height="match_parent">
     <ImageView
         android:id="@+id/ivTBarang"
-
         android:src="@mipmap/ic_launcher"
         android:layout_width="match_parent"
         android:layout_height="@dimen/album_cover_height"
+        android:padding="4dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:scaleType="fitXY"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="4dp"/>
+        android:scaleType="fitXY"/>
 
         <TextView
             android:id="@+id/txtTBarang"
@@ -41,9 +39,17 @@
             android:gravity="center"
             android:textColor="@color/album_title"
             android:textSize="@dimen/album_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
-            />
-
+        <TextView
+            android:id="@+id/txtHarga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1000"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@id/txtTBarang"
+            android:textSize="18sp"/>
     </RelativeLayout>
 
 

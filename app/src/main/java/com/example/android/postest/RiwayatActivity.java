@@ -56,7 +56,7 @@ public class RiwayatActivity extends AppCompatActivity implements NavigationView
         //membuat database baru
         dbTransaksi = new SQLite(this);
         //memanggil method readdata
-        dbTransaksi.ReadTransaksi(listTransaksi);
+        listTransaksi = dbTransaksi.getAllTransaksi();
 
         adapter = new TransaksiAdapter(this, listTransaksi);
         rv.setHasFixedSize(true);

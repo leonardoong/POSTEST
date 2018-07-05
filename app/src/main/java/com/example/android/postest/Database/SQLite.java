@@ -315,6 +315,53 @@ public class SQLite extends SQLiteOpenHelper {
         return barangList;
     }
 
+    public ArrayList<DetailTransaksi> getAllDetailTransaksi() {
+        // array of columns to fetch
+        String[] columns = {
+                KOLOM_DTL_TRN,
+                KOLOM_DTL_BRG,
+                KOLOM_DTL_JUMLAH
+        };
+        // sorting orders
+        String sortOrder =
+                KOLOM_DTL_TRN + " ASC";
+        ArrayList<DetailTransaksi> transaksiList = new ArrayList<DetailTransaksi>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // query the user table
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_id,user_name,user_email,user_password FROM user ORDER BY user_name;
+         */
+        Cursor cursor = db.query(TABEL_DETAIL_TRANSAKSI, //Table to query
+                columns,    //columns to return
+                null,        //columns for the WHERE clause
+                null,        //The values for the WHERE clause
+                null,       //group the rows
+                null,       //filter by row groups
+                sortOrder); //The sort order
+
+
+        // Traversing through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                DetailTransaksi transaksi = new DetailTransaksi();
+                transaksi.setIdTransaksi(Integer.parseInt(cursor.getString(cursor.getColumnIndex(KOLOM_DTL_TRN))));
+                transaksi.setIdBarang(Integer.parseInt(cursor.getString(cursor.getColumnIndex(KOLOM_DTL_BRG))));
+                transaksi.setJumlah(Integer.parseInt(cursor.getString(cursor.getColumnIndex(KOLOM_DTL_JUMLAH))));
+                // Adding user record to list
+                transaksiList.add(transaksi);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        // return user list
+        return transaksiList;
+    }
+
     public ArrayList<Transaksi> getAllTransaksi() {
         // array of columns to fetch
         String[] columns = {

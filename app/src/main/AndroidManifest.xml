@@ -36,6 +36,7 @@
             android:name=".RiwayatActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".DetailBarangActivity"></activity>
+        <activity android:name=".DetailTransaksiActivity"></activity>
     </application>
 
 </manifest>
