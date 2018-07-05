@@ -1,32 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/cardViewTransaksi">
+    android:layout_height="wrap_content">
+
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:cardviewTransaksi="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:layout_margin="@dimen/card_margin"
+    android:elevation="3dp"
+    android:id="@+id/cardViewTransaksi"
+    cardviewTransaksi:cardCornerRadius="@dimen/card_album_radius">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
     <ImageView
         android:id="@+id/ivTBarang"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+
         android:src="@mipmap/ic_launcher"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/album_cover_height"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="fitXY"
-        android:adjustViewBounds="true"
-        android:layout_alignParentLeft="true"/>
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="4dp"/>
 
         <TextView
             android:id="@+id/txtTBarang"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
+
             android:text="Nama Barang"
-            android:layout_alignBottom="@+id/ivTBarang"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+            android:layout_below="@+id/ivTBarang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/album_title_padding"
+            android:paddingRight="@dimen/album_title_padding"
+            android:paddingTop="@dimen/album_title_padding"
+            android:gravity="center"
+            android:textColor="@color/album_title"
+            android:textSize="@dimen/album_title"
+
+            />
+
     </RelativeLayout>
 
 
 </android.support.v7.widget.CardView>
+</LinearLayout>

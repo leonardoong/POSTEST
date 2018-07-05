@@ -3,6 +3,7 @@ package com.example.android.postest.Adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,9 @@ public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksi
             namaBarang = itemView.findViewById(R.id.txtTBarang);
             gambarBarang = itemView.findViewById(R.id.ivTBarang);
             cardv = itemView.findViewById(R.id.cardViewTransaksi);
+            Typeface roboto = Typeface.createFromAsset(itemView.getContext().getAssets(), "fonts/Roboto-Regular.ttf");
+            namaBarang.setTypeface(roboto);
+
         }
     }
     public BarangTransaksiAdapter(Context cntx, List<Barang> list, SetOnItemRecycleListener mItemClickListener){
@@ -53,6 +57,7 @@ public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksi
     @Override
     public holder onCreateViewHolder(ViewGroup parent, int viewType) {
         //membuat view baru
+
         View view = LayoutInflater.from(cntx).inflate(R.layout.transaksi_layout, parent, false);
         final holder hldr = new holder(view);
         view.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +77,7 @@ public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksi
         ByteArrayInputStream imageStream = new ByteArrayInputStream(test);
         Bitmap theImage= BitmapFactory.decodeStream(imageStream);
         holder.gambarBarang.setImageBitmap(theImage);
+
 
     }
 

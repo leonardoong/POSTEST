@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
 
-    <item
-        android:id="@+id/nav_transaksi"
-        android:title="Transaksi"
-        android:visible="true" />
+
+        <item
+            android:title="@string/Transaksi"
+            android:icon="@drawable/transaksi"
+            android:id="@+id/transaksi_id" />
+
+        <item
+            android:title="@string/barang"
+            android:id="@+id/barang_id"
+            android:icon="@drawable/product" />
         <!--android:icon="@drawable/login"-->
 
-        <item
-            android:id="@+id/nav_barang"
-            android:title="Barang"
-            android:visible="true" />
 
         <item
-            android:id="@+id/nav_riwayat"
-            android:title="Riwayat"
-            android:visible="true" />
+            android:id="@+id/riwayat_id"
+            android:title="@string/riwayat"
+            android:icon="@drawable/riwayat" />
 
     </group>
 </menu>
