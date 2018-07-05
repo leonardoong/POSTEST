@@ -78,7 +78,8 @@ public class RiwayatActivity extends AppCompatActivity implements NavigationView
 
         } else if (id == R.id.riwayat_id){
             startActivity(new Intent(getApplicationContext(),RiwayatActivity.class));
-
+        }else if (id == R.id.logout_id){
+            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
         }
         drawerLayout.closeDrawer(GravityCompat.START);
 

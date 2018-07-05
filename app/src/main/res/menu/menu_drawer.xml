@@ -21,5 +21,9 @@
             android:title="@string/riwayat"
             android:icon="@drawable/riwayat" />
 
+        <item
+            android:id="@+id/logout_id"
+            android:title="@string/LogOut"
+            android:icon="@drawable/riwayat" />
     </group>
 </menu>
