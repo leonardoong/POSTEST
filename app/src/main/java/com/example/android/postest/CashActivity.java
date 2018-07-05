@@ -99,6 +99,7 @@ public class CashActivity extends AppCompatActivity {
 //                            jumlah = 0;
 //                        }
 //                    }
+
                     arrTransaksi = database.getAllTransaksi();
                     transaksi = arrTransaksi.get(arrTransaksi.size() - 1);
                     idTransaksi = transaksi.getId();

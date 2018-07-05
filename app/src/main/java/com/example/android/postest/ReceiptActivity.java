@@ -18,15 +18,18 @@ public class ReceiptActivity extends AppCompatActivity {
         tvTotalCash = findViewById(R.id.tvTotalCash);
 
         Intent i = getIntent();
-        String totalHarga = i.getStringExtra("totalHarga");
+        int totalHarga = i.getIntExtra("totalHarga", 0);
         int cash = i.getIntExtra("totalCash", 0);
 
-        tvTotalHarga.setText(totalHarga);
+        tvTotalHarga.setText(String.valueOf(totalHarga));
         tvTotalCash.setText(String.valueOf(cash));
-        int harga = Integer.parseInt(totalHarga);
-        int kembali = cash - harga;
+        int kembali = cash - totalHarga;
         String totalKembali = String.valueOf(kembali);
 
+
+
         tvKembalian.setText(totalKembali);
+
+
     }
 }
