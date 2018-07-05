@@ -31,20 +31,20 @@ public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksi
 
     class holder extends RecyclerView.ViewHolder{
         //deklarasi variable yang akan digunakan
-        public TextView namaBarang;
-        public ImageView gambarBarang;
-        public CardView cardv;
-        public holder(View itemView){
+        private TextView namaBarang, hargaBarang;
+        private ImageView gambarBarang;
+        private CardView cardv;
+        private holder(View itemView){
             super(itemView);
 
             //mengakses id text view pada layout dan juga cardview
+            hargaBarang = itemView.findViewById(R.id.txtHarga);
             namaBarang = itemView.findViewById(R.id.txtTBarang);
             gambarBarang = itemView.findViewById(R.id.ivTBarang);
             cardv = itemView.findViewById(R.id.cardViewTransaksi);
         }
     }
     public BarangTransaksiAdapter(Context cntx, List<Barang> list, SetOnItemRecycleListener mItemClickListener){
-
         this.cntx=cntx;
         this.list=list;
         this.mItemClickListener = mItemClickListener;
@@ -68,10 +68,12 @@ public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksi
     public void onBindViewHolder(holder holder, int position) {
         Barang data = list.get(position);
         holder.namaBarang.setText(data.getNama());
+        holder.hargaBarang.setText(String.valueOf(data.getHarga()));
         byte[] test = data.getGambar();
         ByteArrayInputStream imageStream = new ByteArrayInputStream(test);
         Bitmap theImage= BitmapFactory.decodeStream(imageStream);
         holder.gambarBarang.setImageBitmap(theImage);
+
 
     }
 

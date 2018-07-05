@@ -24,8 +24,19 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:text="Nama Barang"
-            android:layout_alignBottom="@+id/ivTBarang"
+            android:layout_below="@+id/ivTBarang"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+
+        <TextView
+            android:id="@+id/txtHarga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/txtTBarang"
+            android:text="1000"
+            android:layout_alignEnd="@id/ivTBarang"
+            android:layout_alignRight="@id/ivTBarang"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@id/ivTBarang"/>
     </RelativeLayout>
 
 

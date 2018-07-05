@@ -76,7 +76,7 @@ public class RiwayatActivity extends AppCompatActivity {
         //membuat database baru
         dbTransaksi = new SQLite(this);
         //memanggil method readdata
-        dbTransaksi.ReadTransaksi(listTransaksi);
+        listTransaksi = dbTransaksi.getAllTransaksi();
 
         adapter = new TransaksiAdapter(this, listTransaksi);
         rv.setHasFixedSize(true);

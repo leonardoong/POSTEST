@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,6 +7,58 @@
     tools:context="com.example.android.postest.ReceiptActivity"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/namaCustomer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nama Customer :"/>
+
+    <TextView
+        android:id="@+id/tvCustomer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/namaCustomer"
+        android:layout_marginLeft="10dp"
+        android:text="Customer"/>
+
+    <TextView
+        android:id="@+id/namaUser"
+        android:layout_below="@id/namaCustomer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username :" />
+
+    <TextView
+        android:id="@+id/tvUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User"
+        android:layout_below="@+id/namaCustomer"
+        android:layout_toRightOf="@id/namaUser"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/tanggal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tanggal :"
+        android:layout_below="@id/namaUser" />
+
+    <TextView
+        android:id="@+id/tvTanggalBeli"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DD-MM-YYYY"
+        android:layout_below="@id/namaUser"
+        android:layout_toRightOf="@id/tanggal"
+        android:layout_marginLeft="10dp"/>
+
+
+    <LinearLayout
+        android:layout_below="@id/tanggal"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <TextView
         android:id="@+id/tvTotHarga"
         android:layout_width="wrap_content"
@@ -49,5 +101,5 @@
         android:textSize="18sp"
         android:text="12321"/>
 
-
-</LinearLayout>
+    </LinearLayout>
+</>

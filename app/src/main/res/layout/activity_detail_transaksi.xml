@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.postest.DetailTransaksiActivity">
+
+    <TextView
+        android:id="@+id/txtDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Detail Transaksi"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/txtNamaCustomer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtDetail"
+        android:text="Nama Customer :"/>
+
+    <TextView
+        android:id="@+id/tvNamaCustomer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/txtNamaCustomer"
+        android:layout_below="@id/txtDetail"
+        android:text="TEST"/>
+
+    <TextView
+        android:id="@+id/txtUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username :"
+        android:layout_below="@id/txtNamaCustomer"/>
+
+    <TextView
+        android:id="@+id/tvUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username"
+        android:layout_toRightOf="@id/txtUser"
+        android:layout_below="@id/txtNamaCustomer"/>
+
+    <TextView
+        android:id="@+id/txtTanggal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tanggal Pembelian :"
+        android:layout_below="@id/txtUser"/>
+
+    <TextView
+        android:id="@+id/tvTanggal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DD-MM-YYYY"
+        android:layout_toRightOf="@id/txtTanggal"
+        android:layout_below="@id/txtUser"/>
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listViewDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtTanggal">
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/txtTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/listViewDetail"
+        android:text="Total Harga :"/>
+
+    <TextView
+        android:id="@+id/tvTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/listViewDetail"
+        android:layout_toRightOf="@id/txtTotal"
+        android:text="10000"/>
+
+
+</RelativeLayout>

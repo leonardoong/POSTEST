@@ -7,6 +7,9 @@ package com.example.android.postest.Objek;
 public class DetailTransaksi {
     int idTransaksi, idBarang, jumlah;
 
+    public DetailTransaksi(){
+    }
+
     public DetailTransaksi(int idTransaksi, int idBarang, int jumlah) {
         this.idTransaksi = idTransaksi;
         this.idBarang = idBarang;

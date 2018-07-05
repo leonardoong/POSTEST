@@ -1,6 +1,7 @@
 package com.example.android.postest.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.CardView;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.postest.DetailTransaksiActivity;
 import com.example.android.postest.Objek.Barang;
 import com.example.android.postest.Objek.Transaksi;
 import com.example.android.postest.R;
@@ -27,11 +29,12 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.hold
 
     private Context cntx;
     private List<Transaksi> list;
-//    private SetOnItemRecycleListener mItemClickListener;
+    //private SetOnItemRecycleListener mItemClickListener;
 
     class holder extends RecyclerView.ViewHolder{
         //deklarasi variable yang akan digunakan
         public TextView mCustomer, mTanggal, mTotal, mUser;
+        public CardView cardViewTransaksi;
         public holder(View itemView){
             super(itemView);
 
@@ -40,6 +43,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.hold
             mTanggal = itemView.findViewById(R.id.txtTanggalPembelian);
             mTotal = itemView.findViewById(R.id.txttotalpenjualan);
             mUser = itemView.findViewById(R.id.txtUser);
+            cardViewTransaksi = itemView.findViewById(R.id.cvRiwayatTransaksi);
         }
 
         public void bindTo(Transaksi transaksi){
@@ -48,6 +52,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.hold
             mTanggal.setText(transaksi.getTanggal());
             mUser.setText(transaksi.getUser());
         }
+
     }
 
     public TransaksiAdapter(Context cntx, List<Transaksi> list) {
@@ -56,7 +61,6 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.hold
     }
 
 //    public TransaksiAdapter(Context cntx, List<Transaksi> list, SetOnItemRecycleListener mItemClickListener){
-//
 //        this.cntx=cntx;
 //        this.list=list;
 //        this.mItemClickListener = mItemClickListener;
@@ -78,8 +82,21 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.hold
 
     @Override
     public void onBindViewHolder(TransaksiAdapter.holder holder, int position) {
-        Transaksi data = list.get(position);
+        final Transaksi data = list.get(position);
         holder.bindTo(data);
+
+        holder.cardViewTransaksi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(cntx, DetailTransaksiActivity.class);
+                i.putExtra("id", data.getId());
+                i.putExtra("tanggal", data.getTanggal());
+                i.putExtra("customer", data.getCustomer());
+                i.putExtra("user", data.getUser());
+                i.putExtra("total", data.getTotalPenjualan());
+                cntx.startActivity(i);
+            }
+        });
     }
 
     @Override
