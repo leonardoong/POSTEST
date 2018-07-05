@@ -1,12 +1,16 @@
 package com.example.android.postest;
 
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.ButtonBarLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 
 import com.example.android.postest.Adapter.BarangAdapter;
@@ -23,14 +28,15 @@ import com.example.android.postest.Objek.Barang;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DrawerLayout mDrawerLayout;
+    DrawerLayout drawerLayout;
     private RecyclerView rv;
-    private Button mCheckout;
+   AppCompatButton mCheckout;
     BarangTransaksiAdapter adapter;
     String namaBarang;
-
+    NavigationView navigationView;
+    Toolbar toolbar;
     SQLite dbBarang;
     ArrayList<Barang> listBarang;
     int totalHarga;
@@ -38,47 +44,34 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Barang> arrBarang = new ArrayList<>();
     ArrayList<Barang> arrayBarang;
     int idBarang;
+    View myView;
+    boolean isUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mDrawerLayout = findViewById(R.id.drawer_layout);
+        Typeface raleway = Typeface.createFromAsset(getAssets(),"fonts/Raleway-SemiBold.ttf");
+        Typeface roboto = Typeface.createFromAsset(getAssets(),"fonts/Roboto-Regular.ttf");
+
+        myView = findViewById(R.id.my_view);
         rv = (RecyclerView)findViewById(R.id.recViewTransaksi);
-        mCheckout = findViewById(R.id.btnCheckout);
+        mCheckout = (AppCompatButton) findViewById(R.id.btnCheckout);
+        mCheckout.setTypeface(raleway);
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        drawerLayout = (DrawerLayout) findViewById(R.id.layout_drawer);
+        navigationView = (NavigationView) findViewById(R.id.navigasi_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open_drawer,R.string.close_drawer);
+        drawerLayout.setDrawerListener(toggle);
+        toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // set item as selected to persist highlight
-                        menuItem.setChecked(true);
-                        // close drawer when item is tapped
-                        mDrawerLayout.closeDrawers();
-                        int id = menuItem.getItemId();
-                        if (id == R.id.nav_transaksi) {
-                            Intent transaksi = new Intent(MainActivity.this, MainActivity.class);
-                            startActivity(transaksi);
-                        }else if(id == R.id.nav_barang){
-                            Intent barang = new Intent(MainActivity.this,BarangActivity.class);
-                            startActivity(barang);
-                        }else if(id ==R.id.nav_riwayat){
-                            Intent barang = new Intent(MainActivity.this,RiwayatActivity.class);
-                            startActivity(barang);
-                        }
-                        // Add code here to update the UI based on the item selected
-                        // For example, swap UI fragments here
-                        return true;
-                    }
-                });
-
+        myView.setVisibility(View.INVISIBLE);
+        isUp = false;
         listBarang = new ArrayList<>();
         //membuat database baru
         dbBarang = new SQLite(this);
@@ -89,20 +82,42 @@ public class MainActivity extends AppCompatActivity {
         adapter = new BarangTransaksiAdapter(this, listBarang, new SetOnItemRecycleListener() {
             @Override
             public void onItemClick(View v, int position) {
-                int harga = listBarang.get(position).getHarga();
-                mCheckout.setText("CHECKOUT : " + String.valueOf(returnTotalHarga(harga)));
-                String hargaBarang = String.valueOf(harga);
-                namaBarang = listBarang.get(position).getNama();
+                if (!isUp) {
+                    slideUp(myView);
+                    int harga = listBarang.get(position).getHarga();
+                    mCheckout.setText("Rp. " + String.valueOf(returnTotalHarga(harga)));
+                    String hargaBarang = String.valueOf(harga);
+                    namaBarang = listBarang.get(position).getNama();
 
-                arrayBarang = dbBarang.getAllBarang();
-                for (int i =0; i < arrayBarang.size(); i++){
-                    Barang barang1 = arrayBarang.get(i);
-                    if(namaBarang.equals(barang1.getNama())){
-                        idBarang = barang1.getId();
+                    arrayBarang = dbBarang.getAllBarang();
+                    for (int i =0; i < arrayBarang.size(); i++){
+                        Barang barang1 = arrayBarang.get(i);
+                        if(namaBarang.equals(barang1.getNama())){
+                            idBarang = barang1.getId();
+                        }
                     }
+                    Barang barang = new Barang(idBarang,namaBarang, harga);
+                    arrBarang.add(barang);
+
+                } else {
+
+                    int harga = listBarang.get(position).getHarga();
+                    mCheckout.setText("Rp. " + String.valueOf(returnTotalHarga(harga)));
+                    String hargaBarang = String.valueOf(harga);
+                    namaBarang = listBarang.get(position).getNama();
+
+                    arrayBarang = dbBarang.getAllBarang();
+                    for (int i =0; i < arrayBarang.size(); i++){
+                        Barang barang1 = arrayBarang.get(i);
+                        if(namaBarang.equals(barang1.getNama())){
+                            idBarang = barang1.getId();
+                        }
+                    }
+                    Barang barang = new Barang(idBarang,namaBarang, harga);
+                    arrBarang.add(barang);
                 }
-                Barang barang = new Barang(idBarang,namaBarang, harga);
-                arrBarang.add(barang);
+
+                isUp = true;
             }
         });
 
@@ -128,13 +143,56 @@ public class MainActivity extends AppCompatActivity {
         return totalHarga;
     }
 
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.barang_id){
+            startActivity(new Intent(getApplicationContext(),BarangActivity.class));
+
+        } else if (id == R.id.transaksi_id){
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+
+        } else if (id == R.id.riwayat_id){
+            startActivity(new Intent(getApplicationContext(),RiwayatActivity.class));
+
         }
-        return super.onOptionsItemSelected(item);
+        drawerLayout.closeDrawer(GravityCompat.START);
+
+        return true;
+    }
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+
+    }
+
+    public void slideUp(View view){
+        view.setVisibility(View.VISIBLE);
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                view.getHeight(),  // fromYDelta
+                0);                // toYDelta
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
+    }
+
+    // slide the view from its current position to below itself
+    public void slideDown(View view){
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                0,                 // fromYDelta
+                view.getHeight()); // toYDelta
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
     }
 }

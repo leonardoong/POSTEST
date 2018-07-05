@@ -8,9 +8,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -29,26 +32,31 @@ import java.io.InputStream;
 public class TambahBarangActivity extends AppCompatActivity{
 
     final int REQUEST_CODE_GALLERY = 999;
-    EditText mNamaBarang, mHargaBarang,
+    AppCompatEditText mNamaBarang, mHargaBarang,
             mStok, mDeskripsi;
+    TextInputLayout mNamaBarangLyt, mHargaBarangLyt,
+            mStokLyt, mDeskripsiLyt;
     ImageView mGambarBarang;
-    Button mSimpanBarang;
+    AppCompatButton mSimpanBarang;
     SQLite database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tambah_barang);
-
-        mNamaBarang = (EditText)findViewById(R.id.namaBarang);
-        mHargaBarang = (EditText)findViewById(R.id.hargaBarang);
-        mStok = (EditText)findViewById(R.id.stok);
-        mDeskripsi = (EditText)findViewById(R.id.deskripsi);
+        mNamaBarangLyt = (TextInputLayout)findViewById(R.id.namaBarangTextInput);
+        mHargaBarangLyt = (TextInputLayout)findViewById(R.id.hargaBarangTextInput);
+        mStokLyt = (TextInputLayout)findViewById(R.id.stokTextInput);
+        mDeskripsiLyt = (TextInputLayout)findViewById(R.id.deksripsiTextInput);
+        mNamaBarang = (AppCompatEditText)findViewById(R.id.namaBarang);
+        mHargaBarang = (AppCompatEditText)findViewById(R.id.hargaBarang);
+        mStok = (AppCompatEditText)findViewById(R.id.stok);
+        mDeskripsi = (AppCompatEditText)findViewById(R.id.deskripsi);
         mGambarBarang = (ImageView)findViewById(R.id.imgBarang);
 
         database = new SQLite(this);
 
-        mSimpanBarang = (Button)findViewById(R.id.simpanBarang);
+        mSimpanBarang = (AppCompatButton)findViewById(R.id.simpanBarang);
 
         mGambarBarang.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,15 +80,7 @@ public class TambahBarangActivity extends AppCompatActivity{
                 {
                     try
                     {
-                        if(TextUtils.isEmpty(namaBarang) || TextUtils.isEmpty(hargaBarang) || TextUtils.isEmpty(stokBarang)
-                                || TextUtils.isEmpty(deskripsi)){
-                            Toast.makeText(TambahBarangActivity.this, "Lengkapi data", Toast.LENGTH_SHORT).show();
-
-                            mNamaBarang.setText(null);
-                            mHargaBarang.setText(null);
-                            mStok.setText(null);
-                            mDeskripsi.setText(null);
-                        }else {
+                       if (validasiBarang() && validasiHargaBarang() && validasiStok() && validasiDeskripsi()){
                             int intHarga = Integer.parseInt(hargaBarang);
                             int intStok = Integer.parseInt(stokBarang);
 
@@ -136,4 +136,46 @@ public class TambahBarangActivity extends AppCompatActivity{
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    private boolean validasiBarang(){
+        if (mNamaBarang.getText().toString().isEmpty()) {
+            mNamaBarangLyt.setErrorEnabled(true);
+            mNamaBarangLyt.setError("Nama barang tidak boleh kosong");
+            return false;
+        } else {
+            mNamaBarangLyt.setErrorEnabled(false);
+            return true;
+        }
+    }
+    private boolean validasiHargaBarang(){
+        if (mHargaBarang.getText().toString().isEmpty()) {
+            mHargaBarangLyt.setErrorEnabled(true);
+            mHargaBarangLyt.setError("Harga barang tidak boleh kosong");
+            return false;
+        } else {
+            mHargaBarangLyt.setErrorEnabled(false);
+            return true;
+        }
+    }
+    private boolean validasiStok(){
+        if (mStok.getText().toString().isEmpty()) {
+            mStokLyt.setErrorEnabled(true);
+            mStokLyt.setError("Stok tidak boleh kosong");
+            return false;
+        } else {
+            mStokLyt.setErrorEnabled(false);
+            return true;
+        }
+    }
+    private boolean validasiDeskripsi(){
+        if (mDeskripsi.getText().toString().isEmpty()) {
+            mDeskripsiLyt.setErrorEnabled(true);
+            mDeskripsiLyt.setError("Deskripsi tidak boleh kosong");
+            return false;
+        } else {
+            mDeskripsiLyt.setErrorEnabled(false);
+            return true;
+        }
+    }
+
 }

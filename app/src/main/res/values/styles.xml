@@ -6,6 +6,15 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
     </style>
 
+    <style name="tombolHijau" parent="Widget.AppCompat.Button.Colored">
+        <item name="backgroundTint">@color/warnaTombol</item>
+        <item name="android:textColor">@color/textTombol</item>
+    </style>
+    <style name="tombolHijauMuda" parent="Widget.AppCompat.Button.Colored">
+        <item name="backgroundTint">@color/warnaTombolMuda</item>
+        <item name="android:textColor">@color/textTombol</item>
+    </style>
 </resources>

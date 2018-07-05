@@ -1,10 +1,13 @@
 package com.example.android.postest;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,11 +23,13 @@ import com.example.android.postest.Objek.Barang;
 
 import java.util.ArrayList;
 
-public class BarangActivity extends AppCompatActivity {
+public class BarangActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DrawerLayout mDrawerLayout;
-    private Button mTambahBarang;
+    DrawerLayout drawerLayout;
+    FloatingActionButton fabBarang;
     private RecyclerView rv;
+    NavigationView navigationView;
+    Toolbar toolbar;
     BarangAdapter adapter;
     SQLite dbBarang;
     ArrayList<Barang> listBarang;
@@ -33,49 +38,31 @@ public class BarangActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barang);
         rv = (RecyclerView)findViewById(R.id.recview);
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // set item as selected to persist highlight
-                        menuItem.setChecked(true);
-                        // close drawer when item is tapped
-                        mDrawerLayout.closeDrawers();
-                        int id = menuItem.getItemId();
-                        if (id == R.id.nav_transaksi) {
-                            Intent transaksi = new Intent(BarangActivity.this, MainActivity.class);
-                            startActivity(transaksi);
-                        }else if(id == R.id.nav_barang){
-                            Intent barang = new Intent(BarangActivity.this,BarangActivity.class);
-                            startActivity(barang);
-                        }else if(id ==R.id.nav_riwayat){
-                            Intent barang = new Intent(BarangActivity.this,RiwayatActivity.class);
-                            startActivity(barang);
-                        }
-                        // Add code here to update the UI based on the item selected
-                        // For example, swap UI fragments here
-
-                        return true;
-                    }
-                });
-
-        mTambahBarang = (Button)findViewById(R.id.tambahBarang);
-        mTambahBarang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent tambahBarang = new Intent(BarangActivity.this, TambahBarangActivity.class);
-                startActivity(tambahBarang);
-            }
-        });
+        drawerLayout = (DrawerLayout) findViewById(R.id.layout_drawer);
+        navigationView = (NavigationView) findViewById(R.id.navigasi_view);
+        navigationView.getMenu().getItem(1).setChecked(true);
+        navigationView.setNavigationItemSelectedListener(this);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open_drawer,R.string.close_drawer);
+        drawerLayout.setDrawerListener(toggle);
+        toggle.syncState();
+            fabBarang = (FloatingActionButton)findViewById(R.id.fab_btn);
+            fabBarang.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent tambahBarang = new Intent(BarangActivity.this, TambahBarangActivity.class);
+             startActivity(tambahBarang);
+                }
+            });
+//        mTambahBarang = (Button)findViewById(R.id.tambahBarang);
+//        mTambahBarang.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent tambahBarang = new Intent(BarangActivity.this, TambahBarangActivity.class);
+//                startActivity(tambahBarang);
+//            }
+//        });
 
         listBarang = new ArrayList<>();
         //membuat database baru
@@ -91,13 +78,34 @@ public class BarangActivity extends AppCompatActivity {
         rv.setAdapter(adapter);
     }
 
+
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.barang_id){
+            startActivity(new Intent(getApplicationContext(),BarangActivity.class));
+
+        } else if (id == R.id.transaksi_id){
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+
+        } else if (id == R.id.riwayat_id){
+            startActivity(new Intent(getApplicationContext(),RiwayatActivity.class));
+
         }
-        return super.onOptionsItemSelected(item);
+        drawerLayout.closeDrawer(GravityCompat.START);
+
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+
     }
 }
