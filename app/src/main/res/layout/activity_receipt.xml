@@ -73,12 +73,12 @@
         android:textSize="18sp"
         android:text="123321"/>
 
-    <TextView
-        android:id="@+id/tvTotCash"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="Total Cash :"/>
+        <TextView
+            android:id="@+id/tvTotCash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Cash :"
+            android:textSize="20sp" />
 
     <TextView
         android:id="@+id/tvTotalCash"

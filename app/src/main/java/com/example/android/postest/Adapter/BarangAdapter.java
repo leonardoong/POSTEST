@@ -1,5 +1,7 @@
 package com.example.android.postest.Adapter;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.CardView;
 
+import com.example.android.postest.BarangActivity;
 import com.example.android.postest.DetailBarangActivity;
 import com.example.android.postest.Objek.Barang;
 import com.example.android.postest.R;
@@ -23,7 +26,7 @@ import java.util.List;
  * Created by Leonardo on 6/27/2018.
  */
 
-public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.holder>  {
+public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.holder> {
     private Context cntx;
     private List<Barang> list;
 
@@ -41,7 +44,7 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.holder>  {
     }
 
     @Override
-    public void onBindViewHolder(holder holder, int position) {
+    public void onBindViewHolder(final holder holder, int position) {
         final Barang data = list.get(position);
         holder.namaBarang.setText(data.getNama());
         byte[] test = data.getGambar();
@@ -54,8 +57,9 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.holder>  {
                 Intent i = new Intent(cntx, DetailBarangActivity.class);
                 int idbarang = data.getId();
                 i.putExtra("idBarang", String.valueOf(idbarang));
-
-                cntx.startActivity(i);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
+                        (Activity)cntx, holder.gambarBarang, "gambarBarang");
+                cntx.startActivity(i, options.toBundle());
             }
         });
 

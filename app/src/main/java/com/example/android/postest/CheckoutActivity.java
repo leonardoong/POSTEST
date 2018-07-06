@@ -47,21 +47,22 @@ public class CheckoutActivity extends AppCompatActivity {
         btnCash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent i = new Intent(CheckoutActivity.this, CashActivity.class);
+                Intent i = new Intent(CheckoutActivity.this, CashActivity.class);
                 i.putExtra("totalHarga", strHarga);
                 i.putExtra("arrBarang", arrBarang);
-                startActivity(i);*/
+                startActivity(i);
                 ///PINDAH CASH ACTIVITY
 
 
 
 
 
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(CheckoutActivity.this);
+
+                /*AlertDialog.Builder mBuilder = new AlertDialog.Builder(CheckoutActivity.this);
                 View mView = getLayoutInflater().inflate(R.layout.activity_cash, null);
                 mBuilder.setView(mView);
                 AlertDialog dialog = mBuilder.create();
-                dialog.show();
+                dialog.show();*/
 
             }
         });

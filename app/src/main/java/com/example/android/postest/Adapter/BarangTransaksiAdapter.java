@@ -18,6 +18,7 @@ import com.example.android.postest.R;
 import com.example.android.postest.SetOnItemRecycleListener;
 
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -89,6 +90,10 @@ public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksi
 
     public Barang getData(int position){
         return list.get(position);
+    }
+    public void filterList(ArrayList<Barang> filterList){
+        list = filterList;
+        notifyDataSetChanged();
     }
 
 
