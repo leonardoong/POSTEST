@@ -26,6 +26,7 @@ import com.example.android.postest.Objek.Transaksi;
 import com.example.android.postest.Validation.NumberTextWatcher;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,6 +53,9 @@ public class CheckoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+
+        Locale localeID = new Locale("in", "ID");
+        final NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
 
         namaBarang = findViewById(R.id.namaBarang);
         totalHarga = findViewById(R.id.totalHarga);
@@ -91,7 +95,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 mCharge = mView.findViewById(R.id.btnCharge);
                 mCustomer = mView.findViewById(R.id.etNamaCustomer);
 
-                mharga.setText(strHarga);
+                mharga.setText(formatRupiah.format((double)Integer.parseInt(strHarga)));
                 mCash.addTextChangedListener(new NumberTextWatcher(mCash, "#,###"));
 
                 mCharge.setOnClickListener(new View.OnClickListener() {

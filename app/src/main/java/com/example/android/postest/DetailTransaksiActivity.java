@@ -12,8 +12,10 @@ import com.example.android.postest.Adapter.DetailTransaksiAdapter;
 import com.example.android.postest.Database.SQLite;
 import com.example.android.postest.Objek.DetailTransaksi;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class DetailTransaksiActivity extends AppCompatActivity {
     int idTransaksi, totalPenjualan;
@@ -29,6 +31,11 @@ public class DetailTransaksiActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_transaksi);
+
+        this.setTitle("Detail Transaksi");
+
+        Locale localeID = new Locale("in", "ID");
+        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
 
         Intent i = getIntent();
         idTransaksi = i.getIntExtra("id", 0);
@@ -46,7 +53,9 @@ public class DetailTransaksiActivity extends AppCompatActivity {
         mTanggal.setText(tanggal);
         mCustomer.setText(customer);
         mUser.setText(user);
-        mTotal.setText(String.valueOf(totalPenjualan));
+
+
+        mTotal.setText(formatRupiah.format((double)totalPenjualan));
 
         rv = findViewById(R.id.listViewDetail);
         database = new SQLite(this);

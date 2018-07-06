@@ -7,79 +7,162 @@
     tools:context="com.example.android.postest.DetailTransaksiActivity">
 
     <TextView
-        android:id="@+id/txtDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Detail Transaksi"
-        android:gravity="center_horizontal"/>
-
-    <TextView
+        android:layout_marginTop="20dp"
         android:id="@+id/txtNamaCustomer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtDetail"
-        android:text="Nama Customer :"/>
+        android:text="Nama Customer"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:textSize="18sp"/>
 
     <TextView
+        android:id="@+id/i5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text=":"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="150dp"/>
+
+    <TextView
+        android:layout_marginTop="20dp"
         android:id="@+id/tvNamaCustomer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/txtNamaCustomer"
-        android:layout_below="@id/txtDetail"
-        android:text="TEST"/>
+        android:layout_marginLeft="175dp"
+        android:text="Customer"
+        android:layout_alignParentLeft="true"
+        android:textSize="18sp" />
+
 
     <TextView
         android:id="@+id/txtUser"
+        android:layout_below="@id/txtNamaCustomer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username :"
-        android:layout_below="@id/txtNamaCustomer"/>
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:text="Username"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/i6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=":"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/txtNamaCustomer"
+        android:layout_marginLeft="150dp"/>
 
     <TextView
         android:id="@+id/tvUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username"
-        android:layout_toRightOf="@id/txtUser"
-        android:layout_below="@id/txtNamaCustomer"/>
+        android:text="User"
+        android:layout_below="@+id/txtNamaCustomer"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="175dp"
+        android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/txtTanggal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tanggal Pembelian :"
-        android:layout_below="@id/txtUser"/>
+        android:text="Tanggal"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/txtUser"
+        android:layout_alignParentLeft="true"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/i7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=":"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/txtUser"
+        android:layout_marginLeft="150dp"/>
 
     <TextView
         android:id="@+id/tvTanggal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="DD-MM-YYYY"
-        android:layout_toRightOf="@id/txtTanggal"
-        android:layout_below="@id/txtUser"/>
+        android:layout_below="@id/txtUser"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="175dp"
+        android:textSize="18sp"/>
 
+    <TextView
+        android:id="@+id/barang1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtTanggal"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="20dp"
+        android:text="Barang"
+        android:textSize="16sp"
+        android:layout_marginLeft="50dp"/>
+
+    <TextView
+        android:id="@+id/harga1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp"
+        android:textSize="16sp"
+        android:text="Harga"
+        android:layout_below="@id/txtTanggal"
+        android:layout_marginTop="20dp"/>
+
+    <View
+        android:id="@+id/div"
+        style="@style/Divider"
+        android:layout_below="@id/barang1"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"/>
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listViewDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtTanggal">
+        android:layout_below="@id/barang1">
     </android.support.v7.widget.RecyclerView>
 
     <TextView
         android:id="@+id/txtTotal"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_below="@+id/listViewDetail"
-        android:text="Total Harga :"/>
+        android:layout_marginLeft="10dp"
+        android:textSize="16sp"
+        android:text="Total Harga"/>
+
+    <TextView
+        android:id="@+id/i8"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=":"
+        android:layout_alignParentLeft="true"
+        android:textSize="16sp"
+        android:layout_below="@+id/listViewDetail"
+        android:layout_marginLeft="150dp"/>
 
     <TextView
         android:id="@+id/tvTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/listViewDetail"
-        android:layout_toRightOf="@id/txtTotal"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentLeft="true"
+        android:textSize="16sp"
+        android:layout_marginLeft="175dp"
         android:text="10000"/>
 
 

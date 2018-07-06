@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/cardViewDetailTransaksi">
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardViewDetailTransaksi"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:background="?android:colorBackground">
+
         <TextView
             android:id="@+id/txtNamaBarang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nama barang"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:textSize="20sp"
-            android:layout_toRightOf="@+id/gambarBarang" />
+            android:layout_toRightOf="@+id/gambarBarang"
+            android:text="Nama barang"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/x"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/txtNamaBarang"
-            android:layout_marginTop="15dp"
             android:layout_marginLeft="10sp"
-            android:text="X"/>
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/txtNamaBarang"
+            android:text="X" />
 
         <TextView
             android:id="@+id/tvJumlah"
@@ -34,34 +36,36 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/x"
             android:text="2"
-            android:textSize="20sp"
-            android:layout_toRightOf="@id/x"/>
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/gambarBarang"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/txtHargaBarang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Harga Barang"
+
+            android:layout_below="@id/txtNamaBarang"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/gambarBarang"
-            android:layout_below="@id/txtNamaBarang"
-            android:layout_marginLeft="10dp"/>
+            android:text="Harga Barang" />
 
         <TextView
             android:id="@+id/tvHarga"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3000"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textSize="24sp"/>
+            android:text="3000"
+            android:textSize="24sp" />
+
 
     </RelativeLayout>
 

@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +54,7 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.holder> {
         Bitmap theImage= BitmapFactory.decodeStream(imageStream);
         holder.gambarBarang.setImageBitmap(theImage);
         holder.cardv.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(cntx, DetailBarangActivity.class);
