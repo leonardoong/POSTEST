@@ -1,29 +1,25 @@
 package com.example.android.postest.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.postest.AddJumlahActivity;
+import com.example.android.postest.CheckoutActivity;
 import com.example.android.postest.Database.SQLite;
-import com.example.android.postest.DetailBarangActivity;
+import com.example.android.postest.MainActivity;
 import com.example.android.postest.Objek.Barang;
-import com.example.android.postest.Objek.DetailTransaksi;
 import com.example.android.postest.R;
 
-import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Leonardo on 7/2/2018.
@@ -31,6 +27,9 @@ import java.util.List;
 
 public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.holder> {
 
+    public static final String ID_BARANG = "idbarang";
+    public static final String JUMLAH = "jumlah";
+    private static final int REQUEST_CODE = 1;
     private Context cntx;
     private ArrayList<Barang> list;
     SQLite database;
@@ -55,6 +54,15 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.holder
     public void onBindViewHolder(holder holder, int position) {
         final Barang data = list.get(position);
         holder.bindTo(data);
+        holder.cardViewDetailTransaksi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(cntx, AddJumlahActivity.class);
+                i.putExtra(ID_BARANG, data.getId());
+                i.putExtra(JUMLAH, data.getJumlah());
+                ((Activity) cntx).startActivityForResult(i, REQUEST_CODE);
+            }
+        });
 
     }
 
@@ -69,7 +77,7 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.holder
 
     class holder extends RecyclerView.ViewHolder {
         //deklarasi variable yang akan digunakan
-        public TextView mBarang, mHarga, mJumlah, mTotalHarga;
+        public TextView mNamaBarang, mHarga, mJumlah, mTotalHarga;
         public ImageView mGambarBarang;
         public CardView cardViewDetailTransaksi;
         int idBarang, hargaBarang, totalHarga;
@@ -78,22 +86,30 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.holder
             super(itemView);
 
             //mengakses id text view pada layout dan juga cardview
-            mBarang = itemView.findViewById(R.id.txtNamaBarang);
-            mJumlah = itemView.findViewById(R.id.tvJumlah);
-            mHarga = itemView.findViewById(R.id.txtHargaBarang);
+            mNamaBarang = itemView.findViewById(R.id.textNamaBarang);
+            mJumlah = itemView.findViewById(R.id.textJumlah);
+            mHarga = itemView.findViewById(R.id.textHarga);
             mGambarBarang = itemView.findViewById(R.id.gambarBarang);
             cardViewDetailTransaksi = itemView.findViewById(R.id.cardViewDetailTransaksi);
-            mTotalHarga = itemView.findViewById(R.id.tvHarga);
+            mTotalHarga = itemView.findViewById(R.id.textTotalHarga);
         }
 
         public void bindTo(Barang barang){
+
+            if (barang.getJumlah() != 1){
+                itemView.findViewById(R.id.a).setVisibility(View.VISIBLE);
+                itemView.findViewById(R.id.b).setVisibility(View.VISIBLE);
+                mHarga.setVisibility(View.VISIBLE);
+                itemView.findViewById(R.id.txtX).setVisibility(View.VISIBLE);
+                mJumlah.setVisibility(View.VISIBLE);
+            }
 
             idBarang = barang.getId();
             Barang arrBarang = database.getBarang(String.valueOf(idBarang));
             namaBarang = arrBarang.getNama();
             hargaBarang = arrBarang.getHarga();
             mTotalHarga.setText(String.valueOf(hargaBarang*barang.getJumlah()));
-            mBarang.setText(namaBarang);
+            mNamaBarang.setText(namaBarang);
             mJumlah.setText(String.valueOf(barang.getJumlah()));
             mHarga.setText(String.valueOf(hargaBarang));
         }

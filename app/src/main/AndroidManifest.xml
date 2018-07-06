@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,18 +35,24 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".CheckoutActivity"
-            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".CheckoutActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".CashActivity" />
-        <activity android:name=".ReceiptActivity"
-            android:parentActivityName=".CheckoutActivity"/>
+        <activity
+            android:name=".ReceiptActivity"
+            android:parentActivityName=".CheckoutActivity" />
         <activity
             android:name=".RiwayatActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".DetailBarangActivity"
-            android:parentActivityName=".BarangActivity"/>
-        <activity android:name=".DetailTransaksiActivity"
-            android:parentActivityName=".RiwayatActivity"/>
+        <activity
+            android:name=".DetailBarangActivity"
+            android:parentActivityName=".BarangActivity" />
+        <activity
+            android:name=".DetailTransaksiActivity"
+            android:parentActivityName=".RiwayatActivity" />
+        <activity android:name=".SuccessActivity" />
+        <activity android:name=".AddJumlahActivity"></activity>
     </application>
 
 </manifest>

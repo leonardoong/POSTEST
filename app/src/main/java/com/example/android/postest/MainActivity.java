@@ -137,7 +137,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (username == null) {
             backToLogin();
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        arrBarang.clear();
+        arrId.clear();
+        totalHarga = 0;
     }
 
     public int returnTotalHarga(int harga) {

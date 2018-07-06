@@ -4,29 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.postest.ReceiptActivity"
-    android:orientation="vertical">
+    tools:context="com.example.android.postest.ReceiptActivity">
 
     <TextView
+        android:layout_marginTop="20dp"
         android:id="@+id/namaCustomer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nama Customer :"/>
+        android:text="Nama Customer"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:textSize="18sp"/>
 
     <TextView
+        android:id="@+id/i1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text=":"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="150dp"/>
+
+    <TextView
+        android:layout_marginTop="20dp"
         android:id="@+id/tvCustomer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/namaCustomer"
-        android:layout_marginLeft="10dp"
-        android:text="Customer"/>
+        android:layout_marginLeft="175dp"
+        android:text="Customer"
+        android:layout_alignParentLeft="true"
+        android:textSize="18sp" />
+
 
     <TextView
         android:id="@+id/namaUser"
         android:layout_below="@id/namaCustomer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username :" />
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:text="Username"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/i2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=":"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/namaCustomer"
+        android:layout_marginLeft="150dp"/>
 
     <TextView
         android:id="@+id/tvUsername"
@@ -34,15 +61,28 @@
         android:layout_height="wrap_content"
         android:text="User"
         android:layout_below="@+id/namaCustomer"
-        android:layout_toRightOf="@id/namaUser"
-        android:layout_marginLeft="10dp"/>
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="175dp"
+        android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/tanggal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tanggal :"
-        android:layout_below="@id/namaUser" />
+        android:text="Tanggal"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/namaUser"
+        android:layout_alignParentLeft="true"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/i3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=":"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/namaUser"
+        android:layout_marginLeft="150dp"/>
 
     <TextView
         android:id="@+id/tvTanggalBeli"
@@ -50,26 +90,75 @@
         android:layout_height="wrap_content"
         android:text="DD-MM-YYYY"
         android:layout_below="@id/namaUser"
-        android:layout_toRightOf="@id/tanggal"
-        android:layout_marginLeft="10dp"/>
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="175dp"
+        android:textSize="18sp"/>
 
-
-    <LinearLayout
-        android:layout_below="@id/tanggal"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
     <TextView
-        android:id="@+id/tvTotHarga"
+        android:id="@+id/barang"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="Total Harga :"/>
+        android:layout_below="@+id/tanggal"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="20dp"
+        android:text="Barang"
+        android:textSize="16sp"
+        android:layout_marginLeft="50dp"/>
+
+    <TextView
+        android:id="@+id/harga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp"
+        android:textSize="16sp"
+        android:text="Harga"
+        android:layout_below="@id/tanggal"
+        android:layout_marginTop="20dp"/>
+
+    <View
+        android:id="@+id/div"
+        style="@style/Divider"
+        android:layout_below="@id/barang"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/div"
+        android:overScrollMode="never"></android.support.v7.widget.RecyclerView>
+
+    <View
+        android:id="@+id/div1"
+        style="@style/Divider"
+        android:layout_below="@id/rv"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"/>
+
+
+    <TextView
+        android:id="@+id/tvTotHarga"
+        android:layout_below="@id/div1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="150dp"
+        android:textSize="18sp"
+        android:text="Total Harga    :"/>
 
     <TextView
         android:id="@+id/tvTotalHarga"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/div1"
+        android:layout_marginRight="30dp"
         android:textSize="18sp"
         android:text="123321"/>
 
@@ -77,29 +166,50 @@
         android:id="@+id/tvTotCash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="Total Cash :"/>
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="150dp"
+        android:layout_below="@id/tvTotHarga"
+        android:textSize="18sp"
+        android:text="Tunai     :"/>
 
     <TextView
         android:id="@+id/tvTotalCash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:layout_below="@+id/tvTotalHarga"
         android:text="123321"/>
 
     <TextView
         android:id="@+id/tvKembali"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="150dp"
         android:textSize="18sp"
-        android:text="Kembalian :"/>
+        android:layout_below="@id/tvTotCash"
+        android:text="Kembalian     :"/>
 
     <TextView
         android:id="@+id/tvKembalian"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/tvTotalCash"
         android:textSize="18sp"
         android:text="12321"/>
 
-    </LinearLayout>
+    <Button
+        android:id="@+id/btnSales"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Transaksi Baru"
+        android:background="@color/warnaTombolMuda"/>
+
 </RelativeLayout>

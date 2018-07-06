@@ -1,67 +1,86 @@
 <android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/cardViewDetailTransaksi">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="16dp">
-        <TextView
-            android:id="@+id/txtNamaBarang"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nama barang"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:layout_toRightOf="@+id/gambarBarang" />
+        android:padding="5dp">
 
         <TextView
-            android:id="@+id/txtHargaBarang"
+            android:id="@+id/textNamaBarang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Harga Barang"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/gambarBarang"
-            android:layout_below="@id/txtNamaBarang"
-            android:layout_marginLeft="10dp"/>
-
-        <ImageButton
-            android:id="@+id/reduceBarang"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:clickable="true"
-            android:layout_toLeftOf="@+id/tvJumlah"
-            android:src="@drawable/ic_remove_black_24dp"/>
-
-        <TextView
-            android:id="@+id/tvJumlah"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="30dp"
+            android:text="Nama Barang"
             android:textSize="18sp"
-            android:textColor="#000000"
-            android:layout_marginHorizontal="8dp"
-            android:layout_alignTop="@+id/addBarang"
-            android:layout_toLeftOf="@+id/addBarang"/>
-
-        <ImageButton
-            android:id="@+id/addBarang"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:clickable="true"
-            android:layout_alignRight="@+id/tvHarga"
-            android:src="@drawable/ic_add_black_24dp"/>
+            android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/tvHarga"
+            android:id="@+id/a"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3000"
-            android:layout_alignBottom="@+id/txtHargaBarang"
+            android:layout_marginLeft="30dp"
+            android:layout_below="@id/textNamaBarang"
+            android:text="("
+            android:visibility="gone"
+            android:textColor="@color/overlayBackground"
+            />
+
+        <TextView
+            android:id="@+id/textHarga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/a"
+            android:visibility="gone"
+            android:layout_below="@id/textNamaBarang"
+            android:text="1000"
+            android:textColor="@color/overlayBackground"
+            />
+
+        <TextView
+            android:id="@+id/b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/textHarga"
+            android:layout_marginLeft="5dp"
+            android:layout_below="@id/textNamaBarang"
+            android:visibility="gone"
+            android:text="ea.)"
+            android:textColor="@color/overlayBackground"
+            />
+
+        <TextView
+            android:id="@+id/txtX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/textNamaBarang"
+            android:layout_marginLeft="10dp"
+            android:text="x"
+            android:visibility="gone"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/textJumlah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/txtX"
+            android:layout_marginLeft="10dp"
+            android:text="3"
+            android:visibility="gone"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/textTotalHarga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1000"
+            android:layout_marginRight="30dp"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+            android:textSize="18sp" />
 
 
     </RelativeLayout>
