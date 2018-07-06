@@ -2,6 +2,7 @@ package com.example.android.postest;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -30,6 +31,7 @@ import java.util.Set;
 public class CashActivity extends AppCompatActivity {
 
     TextView mharga;
+    Snackbar snackbar;
     EditText mCash, mCustomer;
     Button mCharge;
     String harga, cash, customer, tanggal;
@@ -55,12 +57,11 @@ public class CashActivity extends AppCompatActivity {
 
         final Intent i = getIntent();
         harga = i.getStringExtra("totalHarga");
-        arrBarang = (ArrayList<Barang>)i.getSerializableExtra("arrBarang");
+        arrBarang = (ArrayList<Barang>) i.getSerializableExtra("arrBarang");
 
         mharga.setText(harga);
 
         mCash.addTextChangedListener(new NumberTextWatcher(mCash, "#,###"));
-
 
 
         mCharge.setOnClickListener(new View.OnClickListener() {
@@ -71,20 +72,51 @@ public class CashActivity extends AppCompatActivity {
                 df.setDecimalSeparatorAlwaysShown(true);
                 tanggal = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
                 cash = mCash.getText().toString();
-                cash = cash.replace(String.valueOf(df.getDecimalFormatSymbols().getGroupingSeparator()), "").replace("Rp","");
+                cash = cash.replace(String.valueOf(df.getDecimalFormatSymbols().getGroupingSeparator()), "").replace("Rp", "");
                 customer = mCustomer.getText().toString();
-                int intCash = (int)Float.parseFloat(cash);
+                int intCash = (int) Float.parseFloat(cash);
                 int intHarga = Integer.parseInt(harga);
-                if (TextUtils.isEmpty(cash) || TextUtils.isEmpty(customer)){
-                    Toast.makeText(CashActivity.this, "Lengkapi data", Toast.LENGTH_SHORT).show();
-                }else if (intCash < intHarga && TextUtils.isEmpty(customer)){
-                    Toast.makeText(CashActivity.this, "Uang yang dimasukkan kurang dan lengkapi data", Toast.LENGTH_SHORT).show();
-                }else if (intCash < intHarga){
-                    Toast.makeText(CashActivity.this, "Uang yang dimasukkan kurang", Toast.LENGTH_SHORT).show();
-                }else{
+                if (TextUtils.isEmpty(cash) || TextUtils.isEmpty(customer)) {
+                    /*Toast.makeText(CashActivity.this, "Lengkapi data", Toast.LENGTH_SHORT).show();*/
+                    snackbar = Snackbar.make(v, "Lengkapi Data", Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setDuration(8000);
+                    snackbar.setAction("OK", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            snackbar.dismiss();
+                        }
+                    });
+                    snackbar.show();
+                } else if (intCash < intHarga && TextUtils.isEmpty(customer)) {
+                   /* Toast.makeText(CashActivity.this, "Uang yang dimasukkan kurang dan lengkapi data", Toast.LENGTH_SHORT).show();*/
+                    snackbar = Snackbar.make(v, "Uang kurang", Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setDuration(8000);
+                    snackbar.setAction("OK", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            snackbar.dismiss();
+                        }
+                    });
+
+                    snackbar.show();
+                } else if (intCash < intHarga) {
+                    /*Toast.makeText(CashActivity.this, "Uang yang dimasukkan kurang", Toast.LENGTH_SHORT).show();*/
+                    snackbar = Snackbar.make(v, "Jumlah uang kurang", Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setDuration(8000);
+                    snackbar.setAction("OK", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            snackbar.dismiss();
+                        }
+                    });
+                    View vSnack = snackbar.getView();
+                    TextView action = (TextView) vSnack.findViewById(android.support.design.R.id.snackbar_action);
+                    action.setTextColor(getResources().getColor(R.color.biru));
+                    snackbar.show();
+                } else {
                     SharedPreferences prefs = getSharedPreferences("userSession", MODE_PRIVATE);
                     String user = prefs.getString("username", "");
-                    database.createTransaksi(new Transaksi((tanggal),(customer),(user),(intHarga)));
+                    database.createTransaksi(new Transaksi((tanggal), (customer), (user), (intHarga)));
                     //String namaBarang;
                     listBarang = database.getAllBarang();
 
@@ -104,27 +136,28 @@ public class CashActivity extends AppCompatActivity {
                     transaksi = arrTransaksi.get(arrTransaksi.size() - 1);
                     idTransaksi = transaksi.getId();
 
-                    for (int i = 0; i < arrBarang.size(); i++){
+                    for (int i = 0; i < arrBarang.size(); i++) {
                         barang = arrBarang.get(i);
                         idBarang = barang.getId();
                         arrId.add(idBarang);
                     }
                     Set<Integer> unique = new HashSet<Integer>(arrId);
                     for (Integer key : unique) {
-                        database.createDetailTransaksi(new DetailTransaksi((idTransaksi),(key),(Collections.frequency(arrId,key))));
-                        database.updateBarang(new Barang(key, getStock(key) - Collections.frequency(arrId,key)));
+                        database.createDetailTransaksi(new DetailTransaksi((idTransaksi), (key), (Collections.frequency(arrId, key))));
+                        database.updateBarang(new Barang(key, getStock(key) - Collections.frequency(arrId, key)));
                     }
 
-                    Intent i = new Intent( CashActivity.this, ReceiptActivity.class);
-                    i.putExtra("totalHarga",harga);
-                    i.putExtra("totalCash",intCash);
+                    Intent i = new Intent(CashActivity.this, ReceiptActivity.class);
+                    i.putExtra("totalHarga", harga);
+                    i.putExtra("totalCash", intCash);
 
                     startActivity(i);
                 }
             }
         });
     }
-    public int getStock( int id){
+
+    public int getStock(int id) {
         // Goes through the List of schools.
 
         int stok = database.getBarang(String.valueOf(id)).getStock();

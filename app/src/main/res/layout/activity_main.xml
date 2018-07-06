@@ -27,9 +27,17 @@
             android:layout_marginTop="?attr/actionBarSize"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
-
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:hint="Search"
+                android:id="@+id/cari"
+               />
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recViewTransaksi"
                 android:layout_width="match_parent"

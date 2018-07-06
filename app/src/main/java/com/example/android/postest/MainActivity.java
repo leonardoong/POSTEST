@@ -16,11 +16,14 @@ import android.support.v7.widget.ButtonBarLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.android.postest.Adapter.BarangAdapter;
 import com.example.android.postest.Adapter.BarangTransaksiAdapter;
@@ -63,6 +66,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         rv = (RecyclerView) findViewById(R.id.recViewTransaksi);
         mCheckout = (AppCompatButton) findViewById(R.id.btnCheckout);
         mCheckout.setTypeface(raleway);
+        EditText search = (EditText) findViewById(R.id.cari);
+
+        //buat cari
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filter(s.toString());
+            }
+        });
 
         arrBarang = new ArrayList<>();
         arrId = new ArrayList<>();
@@ -215,4 +237,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(i);
     }
+
+    private void filter(String text){
+        ArrayList<Barang> filterList = new ArrayList<>();
+        for (Barang item : listBarang){
+            if (item.getNama().toLowerCase().contains(text.toLowerCase())){
+                filterList.add(item);
+            }
+        }
+        adapter.filterList(filterList);
+    }
+
 }

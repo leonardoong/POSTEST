@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+
+        android:id="@+id/editNamaBarangTextInput"
+        >
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/editNamaBarang"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:text="Nama Barang"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+
+        android:id="@+id/editHargaBarangTextInput"
+        >
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/editHargaBarang"
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:text="@string/harga_barang"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+           />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+
+        android:id="@+id/editStockTextInput"
+        >
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/editStock"
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:text="Stok"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+
+        android:id="@+id/editDeskripsiTextInput"
+        >
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/editDeskripsi"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Deskripsi"
+
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+           />
+    </android.support.design.widget.TextInputLayout>
+
+      <!--  <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnUpdateBarang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_weight="1"
+                android:text="Edit Barang"
+                android:layout_marginHorizontal="16dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"/>
+            <Button
+                android:id="@+id/btnCancelEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="16dp"
+                android:text="Cancel Edit"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"/>
+        </LinearLayout>-->
+
+
+</LinearLayout>

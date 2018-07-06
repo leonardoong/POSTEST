@@ -12,4 +12,5 @@
     <string name="open_drawer">Open navigation drawer</string>
     <string name="close_drawer">Close navigation drawer</string>
     <string name="LogOut">Log Out</string>
+    <string name="harga_barang">Harga Barang</string>
 </resources>
