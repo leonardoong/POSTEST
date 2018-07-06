@@ -63,7 +63,6 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.holder>{
                 barang = arrBarang.get(i);
                 if(idBarang == barang.getId()){
                     namaBarang = barang.getNama();
-
                     hargaBarang = barang.getHarga();
                 }
             }

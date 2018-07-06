@@ -18,7 +18,9 @@ import com.example.android.postest.R;
 import com.example.android.postest.SetOnItemRecycleListener;
 
 import java.io.ByteArrayInputStream;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Leonardo on 6/27/2018.
@@ -73,7 +75,11 @@ public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksi
     public void onBindViewHolder(holder holder, int position) {
         Barang data = list.get(position);
         holder.namaBarang.setText(data.getNama());
-        holder.hargaBarang.setText(String.valueOf(data.getHarga()));
+
+        Locale localeID = new Locale("in", "ID");
+        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+
+        holder.hargaBarang.setText(formatRupiah.format(data.getHarga()));
         byte[] test = data.getGambar();
         ByteArrayInputStream imageStream = new ByteArrayInputStream(test);
         Bitmap theImage= BitmapFactory.decodeStream(imageStream);

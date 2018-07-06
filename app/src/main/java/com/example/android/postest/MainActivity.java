@@ -26,7 +26,9 @@ import com.example.android.postest.Adapter.BarangTransaksiAdapter;
 import com.example.android.postest.Database.SQLite;
 import com.example.android.postest.Objek.Barang;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -53,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Typeface raleway = Typeface.createFromAsset(getAssets(),"fonts/Raleway-SemiBold.ttf");
         Typeface roboto = Typeface.createFromAsset(getAssets(),"fonts/Roboto-Regular.ttf");
+
+        Locale localeID = new Locale("in", "ID");
+        final NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
 
         myView = findViewById(R.id.my_view);
         rv = (RecyclerView)findViewById(R.id.recViewTransaksi);
@@ -102,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else {
 
                     int harga = listBarang.get(position).getHarga();
-                    mCheckout.setText("Rp. " + String.valueOf(returnTotalHarga(harga)));
+                    mCheckout.setText(formatRupiah.format((double)returnTotalHarga(harga)));
                     String hargaBarang = String.valueOf(harga);
                     namaBarang = listBarang.get(position).getNama();
 
