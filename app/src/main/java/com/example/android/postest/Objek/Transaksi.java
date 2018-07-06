@@ -19,6 +19,14 @@ public class Transaksi {
 
     }
 
+    public Transaksi( int id,String tanggal, String customer, String user, int totalPenjualan) {
+        this.tanggal = tanggal;
+        this.customer = customer;
+        this.user = user;
+        this.totalPenjualan = totalPenjualan;
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

@@ -35,8 +35,9 @@
         <activity
             android:name=".RiwayatActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".DetailBarangActivity"></activity>
-        <activity android:name=".DetailTransaksiActivity"></activity>
+        <activity android:name=".DetailBarangActivity" />
+        <activity android:name=".DetailTransaksiActivity" />
+        <activity android:name=".SuccessActivity"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/textNamaBarang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="30dp"
+        android:text="Nama Barang"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/a"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_below="@id/textNamaBarang"
+        android:text="("
+        android:visibility="gone"
+        android:textColor="@color/overlayBackground"
+        />
+
+    <TextView
+        android:id="@+id/textHarga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/a"
+        android:visibility="gone"
+        android:layout_below="@id/textNamaBarang"
+        android:text="1000"
+        android:textColor="@color/overlayBackground"
+        />
+
+    <TextView
+        android:id="@+id/b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/textHarga"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@id/textNamaBarang"
+        android:visibility="gone"
+        android:text="ea.)"
+        android:textColor="@color/overlayBackground"
+        />
+
+    <TextView
+        android:id="@+id/txtX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/textNamaBarang"
+        android:layout_marginLeft="10dp"
+        android:text="x"
+        android:visibility="gone"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/textJumlah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/txtX"
+        android:layout_marginLeft="10dp"
+        android:text="3"
+        android:visibility="gone"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/textTotalHarga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1000"
+        android:layout_marginRight="30dp"
+        android:layout_alignParentRight="true"
+        android:textSize="18sp" />
+
+
+</RelativeLayout>

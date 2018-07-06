@@ -126,10 +126,10 @@ public class CheckoutActivity extends AppCompatActivity {
                                 database.updateBarang(new Barang(key, getStock(key) - Collections.frequency(arrId,key)));
                             }
 
-                            Intent i = new Intent( CheckoutActivity.this, ReceiptActivity.class);
+                            Intent i = new Intent( CheckoutActivity.this, SuccessActivity.class);
                             i.putExtra("totalHarga",intHarga);
                             i.putExtra("totalCash",intCash);
-
+                            i.putExtra("idTransaksi", idTransaksi);
                             startActivity(i);
                         }
                     }

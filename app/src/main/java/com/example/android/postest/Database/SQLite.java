@@ -2,6 +2,7 @@ package com.example.android.postest.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -177,6 +178,8 @@ public class SQLite extends SQLiteOpenHelper {
 //    --------------------------------------------------------------------------------
 
 
+
+
     public Barang getBarang(String id) {
 
         Barang barang = null;
@@ -219,6 +222,94 @@ public class SQLite extends SQLiteOpenHelper {
         db.close();
 
         return barang;
+    }
+
+    public Transaksi getTransaksi(String id) {
+
+        Transaksi transaksi = null;
+        // array of columns to fetch
+        String[] columns = {
+                KOLOM_TRN_ID, KOLOM_TRN_TANGGAL, KOLOM_TRN_CUSTOMER, KOLOM_TRN_USER, KOLOM_TRN_TOTAL
+        };
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // selection criteria
+        String selection = KOLOM_TRN_ID + " = ?";
+
+        // selection argument
+        String[] selectionArgs = {id};
+
+        // query user table with condition
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_id FROM user WHERE user_email = 'jack@androidtutorialshub.com';
+         */
+        Cursor cursor = db.query(TABLE_TRANSAKSI, //Table to query
+                columns,                    //columns to return
+                selection,                  //columns for the WHERE clause
+                selectionArgs,              //The values for the WHERE clause
+                null,                       //group the rows
+                null,                      //filter by row groups
+                null);                      //The sort order
+        if (cursor.getCount() > 0 && cursor != null){
+            if (cursor.moveToFirst()){
+                transaksi = new Transaksi(
+                        cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getInt(4)
+                );}}
+
+        cursor.close();
+        db.close();
+
+        return transaksi;
+    }
+
+    public ArrayList<DetailTransaksi> getDetailTransaksi(String id) {
+
+        // array of columns to fetch
+        String[] columns = {
+                KOLOM_DTL_TRN, KOLOM_DTL_BRG, KOLOM_DTL_JUMLAH
+        };
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // selection criteria
+        String selection = KOLOM_DTL_TRN + " = ?";
+        ArrayList<DetailTransaksi> detailTransaksi = new ArrayList<DetailTransaksi>();
+        // selection argument
+        String[] selectionArgs = {id};
+
+        // query user table with condition
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_id FROM user WHERE user_email = 'jack@androidtutorialshub.com';
+         */
+        Cursor cursor = db.query(TABEL_DETAIL_TRANSAKSI, //Table to query
+                columns,                    //columns to return
+                selection,                  //columns for the WHERE clause
+                selectionArgs,              //The values for the WHERE clause
+                null,                       //group the rows
+                null,                      //filter by row groups
+                null);                      //The sort order
+        if (cursor.moveToFirst()) {
+            do {
+                DetailTransaksi dt = new DetailTransaksi();
+                dt.setIdTransaksi(Integer.parseInt(cursor.getString(cursor.getColumnIndex(KOLOM_DTL_TRN))));
+                dt.setIdBarang(Integer.parseInt(cursor.getString(cursor.getColumnIndex(KOLOM_DTL_BRG))));
+                dt.setJumlah(Integer.parseInt(cursor.getString(cursor.getColumnIndex(KOLOM_DTL_JUMLAH))));
+                // Adding user record to list
+                detailTransaksi.add(dt);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return detailTransaksi;
     }
 
     public void updateBarang(Barang barang) {
