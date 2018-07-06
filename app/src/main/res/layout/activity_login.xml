@@ -4,11 +4,7 @@
     android:id="@+id/nestedScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    android:paddingBottom="20dp"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:paddingTop="20dp"
+    android:padding="16dp"
     tools:context=".LoginActivity">
 
     <android.support.v7.widget.LinearLayoutCompat
@@ -35,8 +31,7 @@
                 android:layout_height="wrap_content"
                 android:hint="email"
                 android:inputType="text"
-                android:maxLines="1"
-                android:textColor="@android:color/white" />
+                android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -51,8 +46,7 @@
                 android:layout_height="wrap_content"
                 android:hint="password"
                 android:inputType="textPassword"
-                android:maxLines="1"
-                android:textColor="@android:color/white" />
+                android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton
@@ -60,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:background="@color/colorTextHint"
+            style="@style/tombolHijau"
             android:text="Login" />
 
         <android.support.v7.widget.AppCompatTextView
@@ -70,6 +64,7 @@
             android:layout_marginTop="30dp"
             android:gravity="center"
             android:text="Not A Member? Sign up"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textSize="16dp" />
     </android.support.v7.widget.LinearLayoutCompat>
 

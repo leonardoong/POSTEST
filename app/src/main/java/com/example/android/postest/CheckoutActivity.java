@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,7 +16,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.postest.Adapter.BarangAdapter;
 import com.example.android.postest.Adapter.CheckoutAdapter;
+import com.example.android.postest.Adapter.DetailTransaksiAdapter;
 import com.example.android.postest.Database.SQLite;
 import com.example.android.postest.Objek.Barang;
 import com.example.android.postest.Objek.DetailTransaksi;
@@ -41,6 +45,7 @@ public class CheckoutActivity extends AppCompatActivity {
     Transaksi transaksi;
     int idBarang, idTransaksi;
     ListView lv;
+    RecyclerView rv ;
     SQLite database;
     EditText mCash, mCustomer;
     @Override
@@ -52,7 +57,8 @@ public class CheckoutActivity extends AppCompatActivity {
         totalHarga = findViewById(R.id.totalHarga);
         btnCash = findViewById(R.id.btnPemabayaranCash);
 
-        lv = findViewById(R.id.listView);
+//        lv = findViewById(R.id.listView);
+        rv = findViewById(R.id.recview);
         database = new SQLite(this);
 
         Intent data = getIntent();
@@ -61,19 +67,21 @@ public class CheckoutActivity extends AppCompatActivity {
 
         totalHarga.setText(strHarga);
         CheckoutAdapter adapter = new CheckoutAdapter
-                (CheckoutActivity.this, R.layout.checkout_layout, arrBarang);
-        lv.setAdapter(adapter);
+                (CheckoutActivity.this, arrBarang);
+//        lv.setAdapter(adapter);
+
+        rv.setHasFixedSize(true);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        rv.setAdapter(adapter);
 
         btnCash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent i = new Intent(CheckoutActivity.this, CashActivity.class);
-                i.putExtra("totalHarga", strHarga);
-                i.putExtra("arrBarang", arrBarang);
-                startActivity(i);*/
+//                Intent i = new Intent(CheckoutActivity.this, CashActivity.class);
+//                i.putExtra("totalHarga", strHarga);
+//                i.putExtra("arrBarang", arrBarang);
+//                startActivity(i);
                 ///PINDAH CASH ACTIVITY
-
-
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(CheckoutActivity.this);
                 View mView = getLayoutInflater().inflate(R.layout.activity_cash, null);
 
@@ -134,14 +142,10 @@ public class CheckoutActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-
                 mBuilder.setView(mView);
                 AlertDialog dialog = mBuilder.create();
                 dialog.show();
-
-            }
-        });
+            }});
     }
 
     public int getStock( int id){

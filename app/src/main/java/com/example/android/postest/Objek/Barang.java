@@ -1,6 +1,7 @@
 package com.example.android.postest.Objek;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 
 import java.io.Serializable;
 
@@ -9,8 +10,9 @@ import java.io.Serializable;
  */
 
 public class Barang implements Serializable{
-    int harga, stock, id;
+    int harga, stock, id, jumlah;
     String nama, deskripsi;
+
     byte[] gambar;
 
     public Barang(){
@@ -71,7 +73,7 @@ public class Barang implements Serializable{
         return gambar;
     }
 
-    public void setGambar(byte[] gambar) {
+    public void setGambar(@Nullable byte[] gambar) {
         this.gambar = gambar;
     }
 
@@ -107,4 +109,11 @@ public class Barang implements Serializable{
         this.deskripsi = deskripsi;
     }
 
+    public int getJumlah() {
+        return jumlah;
+    }
+
+    public void setJumlah(int jumlah) {
+        this.jumlah = jumlah;
+    }
 }

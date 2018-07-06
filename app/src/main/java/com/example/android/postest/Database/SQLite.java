@@ -208,6 +208,7 @@ public class SQLite extends SQLiteOpenHelper {
         if (cursor.getCount() > 0 && cursor != null){
         if (cursor.moveToFirst()){
         barang = new Barang(
+                cursor.getInt(0),
                 cursor.getString(1),
                 Integer.parseInt(cursor.getString(2)),
                 Integer.parseInt(cursor.getString(3)),

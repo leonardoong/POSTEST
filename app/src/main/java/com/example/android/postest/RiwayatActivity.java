@@ -1,6 +1,7 @@
 package com.example.android.postest;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -79,7 +80,7 @@ public class RiwayatActivity extends AppCompatActivity implements NavigationView
         } else if (id == R.id.riwayat_id){
             startActivity(new Intent(getApplicationContext(),RiwayatActivity.class));
         }else if (id == R.id.logout_id){
-            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+            backToLogin();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
 
@@ -93,6 +94,13 @@ public class RiwayatActivity extends AppCompatActivity implements NavigationView
         } else {
             super.onBackPressed();
         }
+    }
 
+    public void backToLogin (){
+        SharedPreferences.Editor edit = getSharedPreferences("userSession", MODE_PRIVATE).edit();
+        edit.remove("username");
+        edit.commit();
+        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(i);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.android.postest;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -27,12 +28,15 @@ import com.example.android.postest.Database.SQLite;
 import com.example.android.postest.Objek.Barang;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
     private RecyclerView rv;
-   AppCompatButton mCheckout;
+    AppCompatButton mCheckout;
     BarangTransaksiAdapter adapter;
     String namaBarang;
     NavigationView navigationView;
@@ -42,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     int totalHarga;
 
     ArrayList<Barang> arrBarang = new ArrayList<>();
+    ArrayList<Integer> arrId;
     ArrayList<Barang> arrayBarang;
     int idBarang;
     View myView;
@@ -51,22 +56,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Typeface raleway = Typeface.createFromAsset(getAssets(),"fonts/Raleway-SemiBold.ttf");
-        Typeface roboto = Typeface.createFromAsset(getAssets(),"fonts/Roboto-Regular.ttf");
+        Typeface raleway = Typeface.createFromAsset(getAssets(), "fonts/Raleway-SemiBold.ttf");
+        Typeface roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
 
         myView = findViewById(R.id.my_view);
-        rv = (RecyclerView)findViewById(R.id.recViewTransaksi);
+        rv = (RecyclerView) findViewById(R.id.recViewTransaksi);
         mCheckout = (AppCompatButton) findViewById(R.id.btnCheckout);
         mCheckout.setTypeface(raleway);
 
+        arrBarang = new ArrayList<>();
+        arrId = new ArrayList<>();
 
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.layout_drawer);
         navigationView = (NavigationView) findViewById(R.id.navigasi_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open_drawer,R.string.close_drawer);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer);
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -84,39 +92,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onItemClick(View v, int position) {
                 if (!isUp) {
                     slideUp(myView);
-                    int harga = listBarang.get(position).getHarga();
-                    mCheckout.setText("Rp. " + String.valueOf(returnTotalHarga(harga)));
-                    String hargaBarang = String.valueOf(harga);
-                    namaBarang = listBarang.get(position).getNama();
-
-                    arrayBarang = dbBarang.getAllBarang();
-                    for (int i =0; i < arrayBarang.size(); i++){
-                        Barang barang1 = arrayBarang.get(i);
-                        if(namaBarang.equals(barang1.getNama())){
-                            idBarang = barang1.getId();
-                        }
-                    }
-                    Barang barang = new Barang(idBarang,namaBarang, harga);
-                    arrBarang.add(barang);
-
-                } else {
-
-                    int harga = listBarang.get(position).getHarga();
-                    mCheckout.setText("Rp. " + String.valueOf(returnTotalHarga(harga)));
-                    String hargaBarang = String.valueOf(harga);
-                    namaBarang = listBarang.get(position).getNama();
-
-                    arrayBarang = dbBarang.getAllBarang();
-                    for (int i =0; i < arrayBarang.size(); i++){
-                        Barang barang1 = arrayBarang.get(i);
-                        if(namaBarang.equals(barang1.getNama())){
-                            idBarang = barang1.getId();
-                        }
-                    }
-                    Barang barang = new Barang(idBarang,namaBarang, harga);
-                    arrBarang.add(barang);
                 }
 
+                int harga = listBarang.get(position).getHarga();
+                mCheckout.setText("Rp. " + String.valueOf(returnTotalHarga(harga)));
+                String hargaBarang = String.valueOf(harga);
+                namaBarang = listBarang.get(position).getNama();
+
+                arrId.add(listBarang.get(position).getId());
                 isUp = true;
             }
         });
@@ -129,6 +112,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
 //                Bundle b = new Bundle();
+
+                Set<Integer> unique = new HashSet<Integer>(arrId);
+                for (Integer key : unique) {
+                    Barang barang =dbBarang.getBarang(String.valueOf(key));
+                    barang.setGambar(null);
+                    barang.setJumlah(Collections.frequency(arrId,key));
+                    arrBarang.add(barang);
+                }
                 Intent checkout = new Intent(MainActivity.this, CheckoutActivity.class);
                 checkout.putExtra("arrayList", arrBarang);
                 checkout.putExtra("totalHarga", String.valueOf(totalHarga));
@@ -136,6 +127,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(checkout);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SharedPreferences prefs = getSharedPreferences("userSession", MODE_PRIVATE);
+        String username = prefs.getString("username", null);
+        if (username == null) {
+            backToLogin();
+        }
+
     }
 
     public int returnTotalHarga(int harga) {
@@ -148,25 +150,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.barang_id){
-            startActivity(new Intent(getApplicationContext(),BarangActivity.class));
+        if (id == R.id.barang_id) {
+            startActivity(new Intent(getApplicationContext(), BarangActivity.class));
 
-        } else if (id == R.id.transaksi_id){
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        } else if (id == R.id.transaksi_id) {
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
-        } else if (id == R.id.riwayat_id){
-            startActivity(new Intent(getApplicationContext(),RiwayatActivity.class));
-        } else if (id == R.id.logout_id){
-            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+        } else if (id == R.id.riwayat_id) {
+            startActivity(new Intent(getApplicationContext(), RiwayatActivity.class));
+        } else if (id == R.id.logout_id) {
+            backToLogin();
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
     }
+
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
@@ -174,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void slideUp(View view){
+    public void slideUp(View view) {
         view.setVisibility(View.VISIBLE);
         TranslateAnimation animate = new TranslateAnimation(
                 0,                 // fromXDelta
@@ -187,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     // slide the view from its current position to below itself
-    public void slideDown(View view){
+    public void slideDown(View view) {
         TranslateAnimation animate = new TranslateAnimation(
                 0,                 // fromXDelta
                 0,                 // toXDelta
@@ -196,5 +199,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         animate.setDuration(500);
         animate.setFillAfter(true);
         view.startAnimation(animate);
+    }
+
+    public void backToLogin() {
+        SharedPreferences.Editor edit = getSharedPreferences("userSession", MODE_PRIVATE).edit();
+        edit.remove("username");
+        edit.commit();
+        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(i);
     }
 }

@@ -1,38 +1,69 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:id="@+id/cardViewDetailTransaksi">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="16dp">
+        <TextView
+            android:id="@+id/txtNamaBarang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama barang"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:layout_toRightOf="@+id/gambarBarang" />
+
+        <TextView
+            android:id="@+id/txtHargaBarang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Harga Barang"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/gambarBarang"
+            android:layout_below="@id/txtNamaBarang"
+            android:layout_marginLeft="10dp"/>
+
+        <ImageButton
+            android:id="@+id/reduceBarang"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:clickable="true"
+            android:layout_toLeftOf="@+id/tvJumlah"
+            android:src="@drawable/ic_remove_black_24dp"/>
+
+        <TextView
+            android:id="@+id/tvJumlah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:layout_marginHorizontal="8dp"
+            android:layout_alignTop="@+id/addBarang"
+            android:layout_toLeftOf="@+id/addBarang"/>
+
+        <ImageButton
+            android:id="@+id/addBarang"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:clickable="true"
+            android:layout_alignRight="@+id/tvHarga"
+            android:src="@drawable/ic_add_black_24dp"/>
+
+        <TextView
+            android:id="@+id/tvHarga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3000"
+            android:layout_alignBottom="@+id/txtHargaBarang"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
 
-    <TextView
-        android:id="@+id/tvNamaBarang"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        android:gravity="center"
-        android:textAlignment="center"
-        android:text="Nama Barang"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    </RelativeLayout>
 
-
-    <TextView
-        android:id="@+id/tvHargaBarang"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="8dp"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:text="Harga Barang"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</RelativeLayout>
+</android.support.v7.widget.CardView>

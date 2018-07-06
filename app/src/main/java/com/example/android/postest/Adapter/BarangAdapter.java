@@ -85,14 +85,6 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.holder>  {
             gambarBarang = itemView.findViewById(R.id.ivImgBarang);
             cardv = itemView.findViewById(R.id.cardlist);
         }
-
-
-//        @Override
-//        public void onClick(View v) {
-//
-//        }
-
-
     }
 }
 
