@@ -153,6 +153,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Intent accountsIntent = new Intent(activity, MainActivity.class);
             emptyInputEditText();
             startActivity(accountsIntent);
+            finish();
 
         } else {
             // Snack Bar to show success message that record is wrong

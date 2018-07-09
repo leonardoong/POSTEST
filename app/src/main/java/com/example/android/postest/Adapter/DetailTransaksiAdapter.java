@@ -19,8 +19,10 @@ import com.example.android.postest.Objek.Transaksi;
 import com.example.android.postest.R;
 
 import java.io.ByteArrayInputStream;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Leonardo on 7/4/2018.
@@ -70,10 +72,13 @@ public class DetailTransaksiAdapter extends RecyclerView.Adapter<DetailTransaksi
                     hargaBarang = barang.getHarga();
                 }
             }
-            mTotalHarga.setText(String.valueOf(hargaBarang*detTransaksi.getJumlah()));
+            Locale localeID = new Locale("in", "ID");
+            NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+
+            mTotalHarga.setText(formatRupiah.format((double)hargaBarang*detTransaksi.getJumlah()));
             mBarang.setText(namaBarang);
-            mJumlah.setText(String.valueOf(detTransaksi.getJumlah()));
-            mHarga.setText(String.valueOf(hargaBarang));
+            mJumlah.setText(formatRupiah.format((double)detTransaksi.getJumlah()));
+            mHarga.setText(formatRupiah.format((double)hargaBarang));
             ByteArrayInputStream imageStream = new ByteArrayInputStream(byteGambar);
             Bitmap theImage= BitmapFactory.decodeStream(imageStream);
             mGambarBarang.setImageBitmap(theImage);

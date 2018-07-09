@@ -19,7 +19,9 @@ import com.example.android.postest.R;
 import com.example.android.postest.SetOnItemRecycleListener;
 
 import java.io.ByteArrayInputStream;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Aulia Ramadhan on 03/07/2018.
@@ -38,6 +40,8 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.hold
         public holder(View itemView){
             super(itemView);
 
+
+
             //mengakses id text view pada layout dan juga cardview
             mCustomer = itemView.findViewById(R.id.txtCustomer);
             mTanggal = itemView.findViewById(R.id.txtTanggalPembelian);
@@ -47,8 +51,11 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.hold
         }
 
         public void bindTo(Transaksi transaksi){
+            Locale localeID = new Locale("in", "ID");
+            NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+
             mCustomer.setText(transaksi.getCustomer());
-            mTotal.setText(String.valueOf(transaksi.getTotalPenjualan()));
+            mTotal.setText(formatRupiah.format((double) transaksi.getTotalPenjualan()));
             mTanggal.setText(transaksi.getTanggal());
             mUser.setText(transaksi.getUser());
         }

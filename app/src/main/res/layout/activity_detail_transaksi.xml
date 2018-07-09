@@ -140,7 +140,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/listViewDetail"
         android:layout_marginLeft="10dp"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:text="Total Harga"/>
 
     <TextView
@@ -150,7 +150,7 @@
         android:layout_height="wrap_content"
         android:text=":"
         android:layout_alignParentLeft="true"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:layout_below="@+id/listViewDetail"
         android:layout_marginLeft="150dp"/>
 
@@ -161,7 +161,7 @@
         android:layout_below="@id/listViewDetail"
         android:layout_marginTop="10dp"
         android:layout_alignParentLeft="true"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:layout_marginLeft="175dp"
         android:text="10000"/>
 

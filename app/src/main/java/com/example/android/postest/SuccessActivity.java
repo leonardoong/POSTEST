@@ -15,7 +15,7 @@ import java.util.Locale;
 public class SuccessActivity extends AppCompatActivity {
 
     private TextView mKembalian,mCash;
-    private Button mPrint;
+    private Button mPrint, mNew;
     int totalHarga, cash, idTransaksi;
 
     @Override
@@ -30,6 +30,7 @@ public class SuccessActivity extends AppCompatActivity {
         mKembalian = (TextView)findViewById(R.id.txtKembalian);
         mCash = (TextView)findViewById(R.id.txtCash);
         mPrint = (Button)findViewById(R.id.buttonPrint);
+        mNew = (Button)findViewById(R.id.buttonSales);
 
         Intent i = getIntent();
         totalHarga = i.getIntExtra("totalHarga", 0);
@@ -50,6 +51,15 @@ public class SuccessActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        mNew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toMain = new Intent (SuccessActivity.this, MainActivity.class);
+                startActivity(toMain);
+            }
+        });
+
 
     }
 }
