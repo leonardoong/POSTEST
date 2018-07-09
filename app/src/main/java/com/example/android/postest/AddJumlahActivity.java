@@ -32,7 +32,7 @@ public class AddJumlahActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_jumlah);
 
         SQLite db = new SQLite(getApplicationContext());
-        Intent i = getIntent();
+        final Intent i = getIntent();
         jumlah = i.getIntExtra(JUMLAH,1);
         posisi = i.getIntExtra(POSISI, 0) ;
         id = i.getIntExtra(ID_BARANG,0);
@@ -59,9 +59,9 @@ public class AddJumlahActivity extends AppCompatActivity {
         mRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = getIntent();
-                intent.putExtra(POSISI,posisi);
-                setResult(RESULT_OK, intent);
+                jumlah = 0;
+                i.putExtra(JUMLAH,jumlah);
+                setResult(RESULT_OK, i);
                 finish();
             }
         });
@@ -69,10 +69,8 @@ public class AddJumlahActivity extends AppCompatActivity {
         mSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = getIntent();
-                intent.putExtra(JUMLAH, jumlah);
-                intent.putExtra(POSISI,posisi);
-                setResult(RESULT_OK, intent);
+                i.putExtra(JUMLAH,jumlah);
+                setResult(RESULT_OK, i);
                 finish();
             }
         });
@@ -82,7 +80,7 @@ public class AddJumlahActivity extends AppCompatActivity {
     private void initViews (){
         mNama = findViewById(R.id.namaBarang);
         mJumlah = findViewById(R.id.txtJumlah);
-        mDeskripsi = findViewById(R.id.txtJumlah);
+        mDeskripsi = findViewById(R.id.deskripsiBarang);
         mTambah = findViewById(R.id.addBarang);
         mKurang = findViewById(R.id.decrBarang);
         mRemove = findViewById(R.id.btnRemove);

@@ -44,23 +44,23 @@ public class CheckoutActivity extends AppCompatActivity {
     Button btnCash, mCharge;
     String harga, cash, customer, tanggal;
     ArrayList<Barang> arrBarang, listBarang;
-    ArrayList<Integer> arrId ;
     ArrayList<Transaksi> arrTransaksi;
     CheckoutAdapter adapter;
     Barang barang;
     Transaksi transaksi;
-    int idBarang, idTransaksi;
+    int idTransaksi, jumlahHarga;
     ListView lv;
     RecyclerView rv ;
     SQLite database;
     EditText mCash, mCustomer;
+    NumberFormat formatRupiah;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
 
         Locale localeID = new Locale("in", "ID");
-        final NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+        formatRupiah = NumberFormat.getCurrencyInstance(localeID);
 
         namaBarang = findViewById(R.id.namaBarang);
         totalHarga = findViewById(R.id.totalHarga);
@@ -72,7 +72,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
         Intent data = getIntent();
         final String strHarga = data.getStringExtra("totalHarga");
-        arrId = new ArrayList<Integer>();
+        jumlahHarga = Integer.parseInt(strHarga);
         arrBarang = (ArrayList<Barang>)data.getSerializableExtra("arrayList");
 
         totalHarga.setText(strHarga);
@@ -101,7 +101,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 mCharge = mView.findViewById(R.id.btnCharge);
                 mCustomer = mView.findViewById(R.id.etNamaCustomer);
 
-                mharga.setText(formatRupiah.format((double)Integer.parseInt(strHarga)));
+                mharga.setText(formatRupiah.format((double) jumlahHarga));
                 mCash.addTextChangedListener(new NumberTextWatcher(mCash, "#,###"));
 
                 mCharge.setOnClickListener(new View.OnClickListener() {
@@ -115,17 +115,16 @@ public class CheckoutActivity extends AppCompatActivity {
                         cash = cash.replace(String.valueOf(df.getDecimalFormatSymbols().getGroupingSeparator()), "").replace("Rp. ","");
                         customer = mCustomer.getText().toString();
                         int intCash = (int)Float.parseFloat(cash);
-                        int intHarga = Integer.parseInt(strHarga);
                         if (TextUtils.isEmpty(cash) || TextUtils.isEmpty(customer)){
                             Toast.makeText(CheckoutActivity.this, "Lengkapi data", Toast.LENGTH_SHORT).show();
-                        }else if (intCash < intHarga && TextUtils.isEmpty(customer)){
+                        }else if (intCash < jumlahHarga && TextUtils.isEmpty(customer)){
                             Toast.makeText(CheckoutActivity.this, "Uang yang dimasukkan kurang dan lengkapi data", Toast.LENGTH_SHORT).show();
-                        }else if (intCash < intHarga){
+                        }else if (intCash < jumlahHarga){
                             Toast.makeText(CheckoutActivity.this, "Uang yang dimasukkan kurang", Toast.LENGTH_SHORT).show();
                         }else{
                             SharedPreferences prefs = getSharedPreferences("userSession", MODE_PRIVATE);
                             String user = prefs.getString("username", "");
-                            database.createTransaksi(new Transaksi((tanggal),(customer),(user),(intHarga)));
+                            database.createTransaksi(new Transaksi((tanggal),(customer),(user),(jumlahHarga)));
 
                             arrTransaksi = database.getAllTransaksi();
                             transaksi = arrTransaksi.get(arrTransaksi.size() - 1);
@@ -141,10 +140,11 @@ public class CheckoutActivity extends AppCompatActivity {
 //                                database.updateBarang(new Barang(key, getStock(key) - Collections.frequency(arrId,key)));
 //                            }
                             Intent i = new Intent( CheckoutActivity.this, SuccessActivity.class);
-                            i.putExtra("totalHarga",intHarga);
+                            i.putExtra("totalHarga",jumlahHarga);
                             i.putExtra("totalCash",intCash);
                             i.putExtra("idTransaksi", idTransaksi);
                             startActivity(i);
+                            finish();
                         }
                     }
                 });
@@ -172,7 +172,7 @@ public class CheckoutActivity extends AppCompatActivity {
             if (jumlah == 0){
                 removeAt(posisi);
             }else {
-
+                changeValueat(jumlah,posisi);
             }
 
         }}
@@ -184,12 +184,15 @@ public class CheckoutActivity extends AppCompatActivity {
 
     public void removeAt(int position) {
         arrBarang.remove(position);
-        arrId.remove(position);
         adapter.notifyItemRemoved(position);
         adapter.notifyItemRangeChanged(position, arrBarang.size());
     }
-    public void removeAt(int jumlah, int position) {
+    public void changeValueat(int jumlah, int position) {
         arrBarang.get(position).setJumlah(jumlah);
         adapter.notifyItemChanged(position);
+        jumlahHarga = 0;
+        for (Barang barang : arrBarang) {
+            jumlahHarga += barang.getHarga()*barang.getJumlah();
+        }totalHarga.setText(formatRupiah.format((double) jumlahHarga));
     }
 }

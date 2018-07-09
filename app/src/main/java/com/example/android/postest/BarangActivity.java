@@ -85,16 +85,14 @@ public class BarangActivity extends AppCompatActivity implements NavigationView.
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.barang_id){
-            startActivity(new Intent(getApplicationContext(),BarangActivity.class));
-
-        } else if (id == R.id.transaksi_id){
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-
+       if (id == R.id.transaksi_id){
+            finish();
         } else if (id == R.id.riwayat_id){
             startActivity(new Intent(getApplicationContext(),RiwayatActivity.class));
+            finish();
         }else if (id == R.id.logout_id){
             backToLogin();
+            finish();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
 

@@ -172,6 +172,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         arrBarang.clear();
         arrId.clear();
         totalHarga = 0;
+        myView.setVisibility(View.GONE);
+        mCheckout.setVisibility(View.INVISIBLE);
+        isUp = false;
     }
 
     public int returnTotalHarga(int harga) {
@@ -212,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void slideUp(View view) {
+        mCheckout.setVisibility(View.VISIBLE);
         view.setVisibility(View.VISIBLE);
         TranslateAnimation animate = new TranslateAnimation(
                 0,                 // fromXDelta
