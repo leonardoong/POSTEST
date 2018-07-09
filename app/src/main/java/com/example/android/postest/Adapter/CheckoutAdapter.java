@@ -19,7 +19,9 @@ import com.example.android.postest.MainActivity;
 import com.example.android.postest.Objek.Barang;
 import com.example.android.postest.R;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by Leonardo on 7/2/2018.
@@ -106,14 +108,17 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.holder
                 mJumlah.setVisibility(View.VISIBLE);
             }
 
+            Locale localeID = new Locale("in", "ID");
+            NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+
             idBarang = barang.getId();
             Barang arrBarang = database.getBarang(String.valueOf(idBarang));
             namaBarang = arrBarang.getNama();
             hargaBarang = arrBarang.getHarga();
-            mTotalHarga.setText(String.valueOf(hargaBarang*barang.getJumlah()));
+            mTotalHarga.setText(formatRupiah.format((double)hargaBarang*barang.getJumlah()));
             mNamaBarang.setText(namaBarang);
             mJumlah.setText(String.valueOf(barang.getJumlah()));
-            mHarga.setText(String.valueOf(hargaBarang));
+            mHarga.setText(formatRupiah.format((double)hargaBarang));
         }
     }
 

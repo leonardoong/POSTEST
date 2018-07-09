@@ -2,6 +2,7 @@ package com.example.android.postest;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -60,11 +61,15 @@ public class CheckoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_checkout);
 
         Locale localeID = new Locale("in", "ID");
+
+
         formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+        Typeface roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Bold.ttf");
 
         namaBarang = findViewById(R.id.namaBarang);
         totalHarga = findViewById(R.id.totalHarga);
         btnCash = findViewById(R.id.btnPemabayaranCash);
+        totalHarga.setTypeface(roboto);
 
 //        lv = findViewById(R.id.listView);
         rv = findViewById(R.id.recview);
@@ -75,7 +80,7 @@ public class CheckoutActivity extends AppCompatActivity {
         jumlahHarga = Integer.parseInt(strHarga);
         arrBarang = (ArrayList<Barang>)data.getSerializableExtra("arrayList");
 
-        totalHarga.setText(strHarga);
+        totalHarga.setText(formatRupiah.format((double)Integer.parseInt(strHarga)));
         adapter = new CheckoutAdapter
                 (CheckoutActivity.this, arrBarang);
 //        lv.setAdapter(adapter);
