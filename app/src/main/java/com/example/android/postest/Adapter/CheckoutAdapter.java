@@ -29,7 +29,8 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.holder
 
     public static final String ID_BARANG = "idbarang";
     public static final String JUMLAH = "jumlah";
-    private static final int REQUEST_CODE = 1;
+    public static final int REQUEST_CODE = 1;
+    public static final String POSISI = "posisi";
     private Context cntx;
     private ArrayList<Barang> list;
     SQLite database;
@@ -37,7 +38,7 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.holder
     public CheckoutAdapter(Context cntx, ArrayList<Barang> list){
         this.cntx=cntx;
         this.list=list;
-        database = new SQLite(cntx);
+        this.database = new SQLite(cntx);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.holder
 
 
     @Override
-    public void onBindViewHolder(holder holder, int position) {
+    public void onBindViewHolder(holder holder, final int position) {
         final Barang data = list.get(position);
         holder.bindTo(data);
         holder.cardViewDetailTransaksi.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +61,7 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.holder
                 Intent i = new Intent(cntx, AddJumlahActivity.class);
                 i.putExtra(ID_BARANG, data.getId());
                 i.putExtra(JUMLAH, data.getJumlah());
+                i.putExtra(POSISI, position);
                 ((Activity) cntx).startActivityForResult(i, REQUEST_CODE);
             }
         });

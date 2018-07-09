@@ -35,13 +35,18 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import static com.example.android.postest.Adapter.CheckoutAdapter.JUMLAH;
+import static com.example.android.postest.Adapter.CheckoutAdapter.POSISI;
+import static com.example.android.postest.Adapter.CheckoutAdapter.REQUEST_CODE;
+
 public class CheckoutActivity extends AppCompatActivity {
     TextView totalHarga, namaBarang, mharga;
     Button btnCash, mCharge;
     String harga, cash, customer, tanggal;
     ArrayList<Barang> arrBarang, listBarang;
-    ArrayList<Integer> arrId = new ArrayList<Integer>();
+    ArrayList<Integer> arrId ;
     ArrayList<Transaksi> arrTransaksi;
+    CheckoutAdapter adapter;
     Barang barang;
     Transaksi transaksi;
     int idBarang, idTransaksi;
@@ -67,10 +72,11 @@ public class CheckoutActivity extends AppCompatActivity {
 
         Intent data = getIntent();
         final String strHarga = data.getStringExtra("totalHarga");
-        final ArrayList<Barang> arrBarang = (ArrayList<Barang>)data.getSerializableExtra("arrayList");
+        arrId = new ArrayList<Integer>();
+        arrBarang = (ArrayList<Barang>)data.getSerializableExtra("arrayList");
 
         totalHarga.setText(strHarga);
-        CheckoutAdapter adapter = new CheckoutAdapter
+        adapter = new CheckoutAdapter
                 (CheckoutActivity.this, arrBarang);
 //        lv.setAdapter(adapter);
 
@@ -120,24 +126,20 @@ public class CheckoutActivity extends AppCompatActivity {
                             SharedPreferences prefs = getSharedPreferences("userSession", MODE_PRIVATE);
                             String user = prefs.getString("username", "");
                             database.createTransaksi(new Transaksi((tanggal),(customer),(user),(intHarga)));
-                            //String namaBarang;
-                            listBarang = database.getAllBarang();
 
                             arrTransaksi = database.getAllTransaksi();
                             transaksi = arrTransaksi.get(arrTransaksi.size() - 1);
                             idTransaksi = transaksi.getId();
 
-                            for (int i = 0; i < arrBarang.size(); i++){
-                                barang = arrBarang.get(i);
-                                idBarang = barang.getId();
-                                arrId.add(idBarang);
+                            for (Barang barang : arrBarang){
+                                database.createDetailTransaksi(new DetailTransaksi((idTransaksi),(barang.getId()),barang.getJumlah()));
+                                database.updateBarang(new Barang(barang.getId(), barang.getStock() - barang.getJumlah()));
                             }
-                            Set<Integer> unique = new HashSet<Integer>(arrId);
-                            for (Integer key : unique) {
-                                database.createDetailTransaksi(new DetailTransaksi((idTransaksi),(key),(Collections.frequency(arrId,key))));
-                                database.updateBarang(new Barang(key, getStock(key) - Collections.frequency(arrId,key)));
-                            }
-
+//                            Set<Integer> unique = new HashSet<Integer>(arrId);
+//                            for (Integer key : unique) {
+//                                database.createDetailTransaksi(new DetailTransaksi((idTransaksi),(key),(Collections.frequency(arrId,key))));
+//                                database.updateBarang(new Barang(key, getStock(key) - Collections.frequency(arrId,key)));
+//                            }
                             Intent i = new Intent( CheckoutActivity.this, SuccessActivity.class);
                             i.putExtra("totalHarga",intHarga);
                             i.putExtra("totalCash",intCash);
@@ -157,5 +159,37 @@ public class CheckoutActivity extends AppCompatActivity {
 
         int stok = database.getBarang(String.valueOf(id)).getStock();
         return stok;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+        super.onActivityResult(requestCode, resultCode, data);
+        int jumlah, posisi;
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            jumlah = data.getIntExtra(JUMLAH,0);
+            posisi = data.getIntExtra (POSISI, 0);
+            if (jumlah == 0){
+                removeAt(posisi);
+            }else {
+
+            }
+
+        }}
+        catch (Exception ex){
+            Toast.makeText(this, ex.toString(),Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    public void removeAt(int position) {
+        arrBarang.remove(position);
+        arrId.remove(position);
+        adapter.notifyItemRemoved(position);
+        adapter.notifyItemRangeChanged(position, arrBarang.size());
+    }
+    public void removeAt(int jumlah, int position) {
+        arrBarang.get(position).setJumlah(jumlah);
+        adapter.notifyItemChanged(position);
     }
 }

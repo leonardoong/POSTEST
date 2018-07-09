@@ -14,12 +14,15 @@ import com.example.android.postest.Objek.Barang;
 
 import static com.example.android.postest.Adapter.CheckoutAdapter.ID_BARANG;
 import static com.example.android.postest.Adapter.CheckoutAdapter.JUMLAH;
+import static com.example.android.postest.Adapter.CheckoutAdapter.POSISI;
+import static com.example.android.postest.Adapter.CheckoutAdapter.REQUEST_CODE;
 
 public class AddJumlahActivity extends AppCompatActivity {
 
     private TextView mNama, mJumlah, mDeskripsi;
-    private ImageButton mTambah, mKurang;
-    private int jumlah;
+    private ImageButton mTambah, mKurang ;
+    private  Button mRemove, mSave;
+    private int jumlah, posisi, id;
     private Barang barang ;
 
 
@@ -29,19 +32,13 @@ public class AddJumlahActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_jumlah);
 
         SQLite db = new SQLite(getApplicationContext());
-
-        mNama = findViewById(R.id.namaBarang);
-        mJumlah = findViewById(R.id.txtJumlah);
-        mDeskripsi = findViewById(R.id.txtJumlah);
-        mTambah = findViewById(R.id.addBarang);
-        mKurang = findViewById(R.id.decrBarang);
-
         Intent i = getIntent();
-        barang = db.getBarang(String.valueOf(i.getIntExtra(ID_BARANG,0)));
         jumlah = i.getIntExtra(JUMLAH,1);
-        mNama.setText(barang.getNama());
-        mDeskripsi.setText(barang.getDeskripsi());
-        mJumlah.setText(String.valueOf(jumlah));
+        posisi = i.getIntExtra(POSISI, 0) ;
+        id = i.getIntExtra(ID_BARANG,0);
+        barang = db.getBarang(String.valueOf(id));
+
+        initViews();
 
         mTambah.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,5 +55,44 @@ public class AddJumlahActivity extends AppCompatActivity {
                 mJumlah.setText(String.valueOf(++jumlah));
             }
         });
+
+        mRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = getIntent();
+                intent.putExtra(POSISI,posisi);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+
+        mSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = getIntent();
+                intent.putExtra(JUMLAH, jumlah);
+                intent.putExtra(POSISI,posisi);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
     }
+
+
+    private void initViews (){
+        mNama = findViewById(R.id.namaBarang);
+        mJumlah = findViewById(R.id.txtJumlah);
+        mDeskripsi = findViewById(R.id.txtJumlah);
+        mTambah = findViewById(R.id.addBarang);
+        mKurang = findViewById(R.id.decrBarang);
+        mRemove = findViewById(R.id.btnRemove);
+        mSave = findViewById(R.id.btnSave);
+
+        mNama.setText(barang.getNama());
+        mDeskripsi.setText(barang.getDeskripsi());
+        mJumlah.setText(String.valueOf(jumlah));
+    }
+
+
+
 }
