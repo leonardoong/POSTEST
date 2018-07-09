@@ -21,7 +21,7 @@
         android:layout_height="match_parent"
         android:layout_weight="0.8"></android.support.v7.widget.RecyclerView>
 
-    android:layout_marginStart="8dp"
+
     <TextView
         android:id="@+id/txtTotalHarga"
         android:layout_width="match_parent"
@@ -30,7 +30,8 @@
         android:text="Total Harga: "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/namaBarang" />
+        app:layout_constraintTop_toBottomOf="@+id/namaBarang"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/totalHarga"
@@ -42,10 +43,12 @@
 
     <Button
         android:id="@+id/btnPemabayaranCash"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bayar Tunai / Cash"
-        android:gravity="center_horizontal"
+        android:text="CASH"
+        android:gravity="bottom"
+        android:textAlignment="center"
+        style="@style/tombolHijau"
         android:textAppearance="@style/TextAppearance.AppCompat.Button" />
 
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -24,11 +25,14 @@ import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.android.postest.Adapter.BarangAdapter;
 import com.example.android.postest.Adapter.BarangTransaksiAdapter;
 import com.example.android.postest.Database.SQLite;
 import com.example.android.postest.Objek.Barang;
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.vision.barcode.Barcode;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -40,8 +44,9 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
+
     private RecyclerView rv;
-    AppCompatButton mCheckout;
+    AppCompatButton mCheckout, scan;
     BarangTransaksiAdapter adapter;
     String namaBarang;
     NavigationView navigationView;
@@ -70,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myView = findViewById(R.id.my_view);
         rv = (RecyclerView) findViewById(R.id.recViewTransaksi);
         mCheckout = (AppCompatButton) findViewById(R.id.btnCheckout);
+        scan =  (AppCompatButton) findViewById(R.id.btnScan);
         mCheckout.setTypeface(raleway);
         EditText search = (EditText) findViewById(R.id.cari);
 
@@ -152,6 +158,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 checkout.putExtra("totalHarga", String.valueOf(totalHarga));
 //                checkout.putExtras(b);
                 startActivity(checkout);
+            }
+        });
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, barcode.class);
+                startActivityForResult(intent, 0);
             }
         });
     }
@@ -251,6 +264,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         adapter.filterList(filterList);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0) {
+            if (resultCode == CommonStatusCodes.SUCCESS) {
+                if (data!=null){
+                    Barcode barcode = data.getParcelableExtra("barcode");
+                    /*barcodeResult.setText("Hasil Barcode : " + barcode.displayValue);*/
+                    Toast.makeText(getApplicationContext(),"Hasil Barcode " + barcode.displayValue,Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(),"Data Tidak Ditemukan",Toast.LENGTH_SHORT).show();
+                }
+            }
+        } else{
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
 }

@@ -45,6 +45,7 @@ public class DetailBarangActivity extends AppCompatActivity {
         Intent i = getIntent();
         id = i.getStringExtra("idBarang");
 
+
         dbBarang = new SQLite(this);
         barang = dbBarang.getBarang(id);
         initViews(barang);

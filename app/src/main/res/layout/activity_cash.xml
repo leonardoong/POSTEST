@@ -41,6 +41,7 @@
         android:layout_marginTop="16dp"
         android:text="Charge"
         android:paddingVertical="6dp"
+        style="@style/tombolHijau"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"/>
 
 </LinearLayout>

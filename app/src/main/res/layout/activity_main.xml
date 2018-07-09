@@ -30,14 +30,29 @@
             android:orientation="vertical"
             android:focusable="true"
             android:focusableInTouchMode="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:hint="Search"
+            android:id="@+id/cari"
+            />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btnScan"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            style="@style/tombolHijau"
+            android:drawableRight="@drawable/barcode"
+            android:textSize="14dp"
+            android:layout_marginTop="10dp"
+            />
+    </LinearLayout>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:hint="Search"
-                android:id="@+id/cari"
-               />
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recViewTransaksi"
                 android:layout_width="match_parent"
