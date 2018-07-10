@@ -44,11 +44,10 @@ import static com.example.android.postest.Adapter.CheckoutAdapter.REQUEST_CODE;
 public class CheckoutActivity extends AppCompatActivity {
     TextView totalHarga, namaBarang, mharga;
     Button btnCash, mCharge;
-    String harga, cash, customer, tanggal;
-    ArrayList<Barang> arrBarang, listBarang;
+    String cash, customer, tanggal;
+    ArrayList<Barang> arrBarang;
     ArrayList<Transaksi> arrTransaksi;
     CheckoutAdapter adapter;
-    Barang barang;
     Transaksi transaksi;
     int idTransaksi, jumlahHarga;
     ListView lv;
@@ -61,27 +60,14 @@ public class CheckoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
 
-        Locale localeID = new Locale("in", "ID");
-
-
-        formatRupiah = NumberFormat.getCurrencyInstance(localeID);
-        Typeface roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Bold.ttf");
-
-        namaBarang = findViewById(R.id.namaBarang);
-        totalHarga = findViewById(R.id.totalHarga);
-        btnCash = findViewById(R.id.btnPemabayaranCash);
-        totalHarga.setTypeface(roboto);
-
-//        lv = findViewById(R.id.listView);
-        rv = findViewById(R.id.recview);
-        database = new SQLite(this);
-
         Intent data = getIntent();
-        final String strHarga = data.getStringExtra("totalHarga");
-        jumlahHarga = Integer.parseInt(strHarga);
         arrBarang = (ArrayList<Barang>)data.getSerializableExtra("arrayList");
+        for(Barang b : arrBarang){
+            jumlahHarga += b.getHarga()*b.getJumlah();
+        }
 
-        totalHarga.setText(formatRupiah.format((double)Integer.parseInt(strHarga)));
+        initViews();
+
         adapter = new CheckoutAdapter
                 (CheckoutActivity.this, arrBarang);
 //        lv.setAdapter(adapter);
@@ -93,11 +79,6 @@ public class CheckoutActivity extends AppCompatActivity {
         btnCash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent i = new Intent(CheckoutActivity.this, CashActivity.class);
-//                i.putExtra("totalHarga", strHarga);
-//                i.putExtra("arrBarang", arrBarang);
-//                startActivity(i);
-                ///PINDAH CASH ACTIVITY
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(CheckoutActivity.this);
                 View mView = getLayoutInflater().inflate(R.layout.activity_cash, null);
 
@@ -140,11 +121,7 @@ public class CheckoutActivity extends AppCompatActivity {
                                 database.createDetailTransaksi(new DetailTransaksi((idTransaksi),(barang.getId()),barang.getJumlah()));
                                 database.updateBarang(new Barang(barang.getId(), barang.getStock() - barang.getJumlah()));
                             }
-//                            Set<Integer> unique = new HashSet<Integer>(arrId);
-//                            for (Integer key : unique) {
-//                                database.createDetailTransaksi(new DetailTransaksi((idTransaksi),(key),(Collections.frequency(arrId,key))));
-//                                database.updateBarang(new Barang(key, getStock(key) - Collections.frequency(arrId,key)));
-//                            }
+
                             Intent i = new Intent( CheckoutActivity.this, SuccessActivity.class);
                             i.putExtra("totalHarga",jumlahHarga);
                             i.putExtra("totalCash",intCash);
@@ -160,13 +137,6 @@ public class CheckoutActivity extends AppCompatActivity {
             }});
     }
 
-    public int getStock( int id){
-        // Goes through the List of schools.
-
-        int stok = database.getBarang(String.valueOf(id)).getStock();
-        return stok;
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
@@ -180,18 +150,37 @@ public class CheckoutActivity extends AppCompatActivity {
             }else {
                 changeValueat(jumlah,posisi);
             }
-
         }}
         catch (Exception ex){
             Toast.makeText(this, ex.toString(),Toast.LENGTH_SHORT).show();
-
         }
+    }
+
+    private void initViews(){
+        Locale localeID = new Locale("in", "ID");
+
+        formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+        Typeface roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Bold.ttf");
+
+        namaBarang = findViewById(R.id.namaBarang);
+        totalHarga = findViewById(R.id.totalHarga);
+        btnCash = findViewById(R.id.btnPemabayaranCash);
+        totalHarga.setTypeface(roboto);
+        totalHarga.setText(formatRupiah.format((double)jumlahHarga));
+
+        rv = findViewById(R.id.recview);
+        database = new SQLite(this);
+
     }
 
     public void removeAt(int position) {
         arrBarang.remove(position);
         adapter.notifyItemRemoved(position);
         adapter.notifyItemRangeChanged(position, arrBarang.size());
+        jumlahHarga = 0;
+        for (Barang barang : arrBarang) {
+            jumlahHarga += barang.getHarga()*barang.getJumlah();
+        }totalHarga.setText(formatRupiah.format((double) jumlahHarga));
     }
     public void changeValueat(int jumlah, int position) {
         arrBarang.get(position).setJumlah(jumlah);

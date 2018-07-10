@@ -54,17 +54,9 @@ public class BarangActivity extends AppCompatActivity implements NavigationView.
                 public void onClick(View v) {
                     Intent tambahBarang = new Intent(BarangActivity.this, TambahBarangActivity.class);
              startActivity(tambahBarang);
+
                 }
             });
-//        mTambahBarang = (Button)findViewById(R.id.tambahBarang);
-//        mTambahBarang.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent tambahBarang = new Intent(BarangActivity.this, TambahBarangActivity.class);
-//                startActivity(tambahBarang);
-//            }
-//        });
-
         listBarang = new ArrayList<>();
         //membuat database baru
         dbBarang = new SQLite(this);

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.postest.Database.SQLite;
@@ -15,12 +14,11 @@ import com.example.android.postest.Objek.Barang;
 import static com.example.android.postest.Adapter.CheckoutAdapter.ID_BARANG;
 import static com.example.android.postest.Adapter.CheckoutAdapter.JUMLAH;
 import static com.example.android.postest.Adapter.CheckoutAdapter.POSISI;
-import static com.example.android.postest.Adapter.CheckoutAdapter.REQUEST_CODE;
 
 public class AddJumlahActivity extends AppCompatActivity {
 
     private TextView mNama, mJumlah, mDeskripsi;
-    private ImageButton mTambah, mKurang ;
+    private ImageButton mKurang, mTambah;
     private  Button mRemove, mSave;
     private int jumlah, posisi, id;
     private Barang barang ;
@@ -40,7 +38,7 @@ public class AddJumlahActivity extends AppCompatActivity {
 
         initViews();
 
-        mTambah.setOnClickListener(new View.OnClickListener() {
+        mKurang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (jumlah>1){
@@ -49,9 +47,10 @@ public class AddJumlahActivity extends AppCompatActivity {
             }
         });
 
-        mKurang.setOnClickListener(new View.OnClickListener() {
+        mTambah.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (barang.getStock() > jumlah)
                 mJumlah.setText(String.valueOf(++jumlah));
             }
         });
@@ -81,8 +80,8 @@ public class AddJumlahActivity extends AppCompatActivity {
         mNama = findViewById(R.id.namaBarang);
         mJumlah = findViewById(R.id.txtJumlah);
         mDeskripsi = findViewById(R.id.deskripsiBarang);
-        mTambah = findViewById(R.id.addBarang);
-        mKurang = findViewById(R.id.decrBarang);
+        mKurang = findViewById(R.id.addBarang);
+        mTambah = findViewById(R.id.decrBarang);
         mRemove = findViewById(R.id.btnRemove);
         mSave = findViewById(R.id.btnSave);
 

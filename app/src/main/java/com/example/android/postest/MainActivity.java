@@ -147,19 +147,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Bundle b = new Bundle();
 
                 Set<Integer> unique = new HashSet<Integer>(arrId);
+
                 for (Integer key : unique) {
-                    Barang barang =dbBarang.getBarang(String.valueOf(key));
-                    barang.setGambar(null);
-                    barang.setJumlah(Collections.frequency(arrId,key));
-                    arrBarang.add(barang);
+                    addArrayBarang(key);
                 }
                 Intent checkout = new Intent(MainActivity.this, CheckoutActivity.class);
                 checkout.putExtra("arrayList", arrBarang);
                 checkout.putExtra("totalHarga", String.valueOf(totalHarga));
-//                checkout.putExtras(b);
                 startActivity(checkout);
             }
         });
@@ -170,6 +166,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivityForResult(intent, 0);
             }
         });
+    }
+
+    protected void addArrayBarang(int key){
+        Barang barang =dbBarang.getBarang(String.valueOf(key));
+        barang.setGambar(null);
+        int jumlah = Collections.frequency(arrId,key);
+        if (jumlah < barang.getStock()) {
+            barang.setJumlah(jumlah);
+        } else barang.setJumlah(barang.getStock());
+        arrBarang.add(barang);
     }
 
     @Override
@@ -207,6 +213,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(getApplicationContext(), BarangActivity.class));
         } else if (id == R.id.transaksi_id) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
         } else if (id == R.id.riwayat_id) {
             startActivity(new Intent(getApplicationContext(), RiwayatActivity.class));
         } else if (id == R.id.logout_id) {

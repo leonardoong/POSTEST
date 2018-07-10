@@ -89,7 +89,7 @@ public class TambahBarangActivity extends AppCompatActivity{
                             Toast.makeText(TambahBarangActivity.this, "Barang berhasil ditambahkan", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(TambahBarangActivity.this, BarangActivity.class);
                             startActivity(intent);
-
+                            finish();
                         }
                     }catch (NumberFormatException e)
                     {
