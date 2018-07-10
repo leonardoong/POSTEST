@@ -63,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     int idBarang;
     View myView;
     boolean isUp;
-
+    int clickcount=0;
+    int jumlah;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,13 +130,52 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (!isUp) {
                     slideUp(myView);
                 }
+                clickcount=clickcount+1;
+//                if(clickcount==1)
+//                {
+//                    //first time clicked to do this
+//                    Toast.makeText(getApplicationContext(),"Button clicked first time!", Toast.LENGTH_SHORT).show();
+//                }
+//                else
+//                {
+//                    //check how many times clicked and so on
+//                    Toast.makeText(getApplicationContext(),"Button clicked count is "+clickcount, Toast.LENGTH_SHORT).show();
+//                }
+
+
 
                 int harga = listBarang.get(position).getHarga();
-                mCheckout.setText("Rp. " + String.valueOf(returnTotalHarga(harga)));
-                String hargaBarang = String.valueOf(harga);
+                int stock = listBarang.get(position).getStock();
+
+//                if (stock >= clickcount){
+//                    mCheckout.setText("Rp. " + String.valueOf(returnTotalHarga(harga)));
+//                }else {
+//                    Toast.makeText(MainActivity.this, "Stock sudah " + listBarang.get(position).getNama() + " sudah habis",
+//                            Toast.LENGTH_SHORT).show();
+//                }
+
+//                String hargaBarang = String.valueOf(harga);
                 namaBarang = listBarang.get(position).getNama();
 
                 arrId.add(listBarang.get(position).getId());
+                Set<Integer> unik = new HashSet<Integer>(arrId);
+
+                for(Integer i : unik){
+                    jumlah = Collections.frequency(arrId,i);
+                    if(i == listBarang.get(position).getId()) {
+                        if (stock >= jumlah) {
+                            mCheckout.setText("Rp. " + String.valueOf(returnTotalHarga(harga)));
+                            break;
+                        } else if (stock < jumlah) {
+                            Toast.makeText(MainActivity.this, "Stock " + listBarang.get(position).getNama() + " sudah habis",
+                                    Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    }
+                }
+
+
+
                 isUp = true;
             }
         });
@@ -186,6 +226,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (username == null) {
             backToLogin();
         }
+        jumlah = 0;
     }
 
     @Override
