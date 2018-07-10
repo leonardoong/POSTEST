@@ -75,6 +75,8 @@ public class RiwayatActivity extends AppCompatActivity implements NavigationView
             startActivity(new Intent(getApplicationContext(),BarangActivity.class));
             finish();
         } else if (id == R.id.transaksi_id){
+
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }else if (id == R.id.logout_id){
             backToLogin();
