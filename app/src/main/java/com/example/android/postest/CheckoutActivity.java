@@ -30,6 +30,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -115,7 +116,7 @@ public class CheckoutActivity extends AppCompatActivity {
                         final DecimalFormat df;
                         df = new DecimalFormat("#,###");
                         df.setDecimalSeparatorAlwaysShown(true);
-                        tanggal = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                        tanggal = new SimpleDateFormat("d MMM yyyy HH:mm:ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
                         cash = mCash.getText().toString();
                         cash = cash.replace(String.valueOf(df.getDecimalFormatSymbols().getGroupingSeparator()), "").replace("Rp. ","");
                         customer = mCustomer.getText().toString();

@@ -96,7 +96,6 @@ public class BarangActivity extends AppCompatActivity implements NavigationView.
             finish();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
-
         return true;
     }
 

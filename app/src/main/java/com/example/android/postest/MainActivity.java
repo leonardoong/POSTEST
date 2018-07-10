@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.postest.Adapter.BarangAdapter;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     SQLite dbBarang;
     ArrayList<Barang> listBarang;
     int totalHarga;
-
+    TextView tvEmpty;
     ArrayList<Barang> arrBarang = new ArrayList<>();
     ArrayList<Integer> arrId;
     ArrayList<Barang> arrayBarang;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         scan =  (AppCompatButton) findViewById(R.id.btnScan);
         mCheckout.setTypeface(raleway);
         search = (EditText) findViewById(R.id.cari);
+        tvEmpty = (TextView) findViewById(R.id.emptyData);
 
         //buat cari
         search.addTextChangedListener(new TextWatcher() {
@@ -264,6 +266,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (item.getNama().toLowerCase().contains(text.toLowerCase())){
                 filterList.add(item);
             }
+        }
+        if (filterList.size() == 0){
+            rv.setVisibility(View.GONE);
+            tvEmpty.setVisibility(View.VISIBLE);
+        }else if(filterList.size() != 0){
+            rv.setVisibility(View.VISIBLE);
+            tvEmpty.setVisibility(View.GONE);
         }
         adapter.filterList(filterList);
     }
