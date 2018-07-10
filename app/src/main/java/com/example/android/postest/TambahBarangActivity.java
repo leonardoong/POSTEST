@@ -126,15 +126,17 @@ public class TambahBarangActivity extends AppCompatActivity{
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        Uri uri = data.getData();
-        try{
-            InputStream inputStream = getContentResolver().openInputStream(uri);
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            mGambarBarang.setImageBitmap(bitmap);
-        }catch (FileNotFoundException e){
-            e.printStackTrace();
+        if(data!=null) {
+            Uri uri = data.getData();
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(uri);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                mGambarBarang.setImageBitmap(bitmap);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            super.onActivityResult(requestCode, resultCode, data);
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private boolean validasiBarang(){

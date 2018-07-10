@@ -203,10 +203,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.barang_id) {
             startActivity(new Intent(getApplicationContext(), BarangActivity.class));
-
         } else if (id == R.id.transaksi_id) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
-
         } else if (id == R.id.riwayat_id) {
             startActivity(new Intent(getApplicationContext(), RiwayatActivity.class));
         } else if (id == R.id.logout_id) {
@@ -225,7 +223,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
-
     }
 
     public void slideUp(View view) {
