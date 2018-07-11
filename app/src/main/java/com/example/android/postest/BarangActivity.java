@@ -61,8 +61,7 @@ public class BarangActivity extends AppCompatActivity implements NavigationView.
         //membuat database baru
         dbBarang = new SQLite(this);
         //memanggil method readdata
-        dbBarang.ReadData(listBarang);
-
+        dbBarang.ReadBarang(listBarang);
 
         adapter = new BarangAdapter(this, listBarang);
 

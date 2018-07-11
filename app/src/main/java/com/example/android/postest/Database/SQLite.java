@@ -168,6 +168,15 @@ public class SQLite extends SQLiteOpenHelper {
 
     public void ReadData(ArrayList<Barang> daftar){
         Cursor cursor = this.getReadableDatabase().rawQuery("select id, nama, harga, stok,deskripsi, gambar from "
+                + TABEL_BARANG + " where stok > 0", null);
+        while (cursor.moveToNext()){
+            daftar.add(new Barang(cursor.getInt(0), cursor.getString(1), cursor.getInt(2),
+                    cursor.getInt(3), cursor.getString(4), cursor.getBlob(5)));
+        }
+    }
+
+    public void ReadBarang(ArrayList<Barang> daftar){
+        Cursor cursor = this.getReadableDatabase().rawQuery("select id, nama, harga, stok,deskripsi, gambar from "
                 + TABEL_BARANG, null);
         while (cursor.moveToNext()){
             daftar.add(new Barang(cursor.getInt(0), cursor.getString(1), cursor.getInt(2),

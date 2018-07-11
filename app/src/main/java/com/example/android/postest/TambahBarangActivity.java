@@ -7,9 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
@@ -32,6 +34,7 @@ import java.io.InputStream;
 public class TambahBarangActivity extends AppCompatActivity{
 
     final int REQUEST_CODE_GALLERY = 999;
+    final int REQUEST_CODE_CAMERA = 998;
     AppCompatEditText mNamaBarang, mHargaBarang,
             mStok, mDeskripsi;
     TextInputLayout mNamaBarangLyt, mHargaBarangLyt,
@@ -39,6 +42,8 @@ public class TambahBarangActivity extends AppCompatActivity{
     ImageView mGambarBarang;
     AppCompatButton mSimpanBarang;
     SQLite database;
+    Button camera, gallery;
+    AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +66,32 @@ public class TambahBarangActivity extends AppCompatActivity{
         mGambarBarang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActivityCompat.requestPermissions(TambahBarangActivity.this, new String[]
-                        {Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_CODE_GALLERY);
+
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(TambahBarangActivity.this);
+                View mView = getLayoutInflater().inflate(R.layout.pilih_layout, null);
+
+                camera = mView.findViewById(R.id.camera);
+                gallery = mView.findViewById(R.id.gallery);
+
+                gallery.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ActivityCompat.requestPermissions(TambahBarangActivity.this, new String[]
+                                {Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_CODE_GALLERY);
+                    }
+                });
+
+                camera.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ActivityCompat.requestPermissions(TambahBarangActivity.this, new String []
+                                {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA);
+                    }
+                });
+                mBuilder.setView(mView);
+                dialog = mBuilder.create();
+                dialog.show();
+
             }
         });
 
@@ -120,22 +149,46 @@ public class TambahBarangActivity extends AppCompatActivity{
                 Toast.makeText(TambahBarangActivity.this, "You don't have permission to access file", Toast.LENGTH_SHORT).show();
             }
             return;
+        }else if (requestCode == REQUEST_CODE_CAMERA){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(takePicture, REQUEST_CODE_CAMERA);
+            }else {
+                Toast.makeText(TambahBarangActivity.this, "You don't have permission to access camera", Toast.LENGTH_SHORT).show();
+            }
+            return;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
         if(data!=null) {
-            Uri uri = data.getData();
-            try {
-                InputStream inputStream = getContentResolver().openInputStream(uri);
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                mGambarBarang.setImageBitmap(bitmap);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+            switch(requestCode) {
+                case REQUEST_CODE_CAMERA:
+                    if(resultCode == RESULT_OK){
+                        dialog.dismiss();
+                        Bitmap photo = (Bitmap) data.getExtras().get("data");
+                        mGambarBarang.setImageBitmap(photo);
+                    }
+                    break;
+                case REQUEST_CODE_GALLERY:
+                    if(resultCode == RESULT_OK){
+                        dialog.dismiss();
+                        Uri uri = data.getData();
+                        try {
+                            InputStream inputStream = getContentResolver().openInputStream(uri);
+                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                            mGambarBarang.setImageBitmap(bitmap);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    break;
             }
-            super.onActivityResult(requestCode, resultCode, data);
+
+
         }
     }
 
