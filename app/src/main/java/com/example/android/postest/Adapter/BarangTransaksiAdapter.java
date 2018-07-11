@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.CardView;
@@ -27,12 +29,45 @@ import java.util.Locale;
  * Created by Leonardo on 6/27/2018.
  */
 
-public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksiAdapter.holder> {
+public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksiAdapter.holder> implements Filterable {
 
     private Context cntx;
     private List<Barang> list;
+    private List<Barang> listFull;
     private SetOnItemRecycleListener mItemClickListener;
 
+    @Override
+    public Filter getFilter() {
+        return listFilter;
+    }
+
+    private Filter listFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Barang> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(listFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                ;
+                for (Barang barang : listFull) {
+                    if (barang.getNama().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(barang);
+                    }
+                }
+
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            list.clear();
+            list.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
     class holder extends RecyclerView.ViewHolder{
         //deklarasi variable yang akan digunakan
         private TextView namaBarang, hargaBarang;
@@ -55,6 +90,7 @@ public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksi
         this.cntx=cntx;
         this.list=list;
         this.mItemClickListener = mItemClickListener;
+        listFull = new ArrayList<>(list);
     }
 
     @Override
@@ -94,14 +130,14 @@ public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksi
         return list.size();
     }
 
-    public Barang getData(int position){
+  /*  public Barang getData(int position){
         return list.get(position);
     }
     public void filterList(ArrayList<Barang> filterList){
         list = filterList;
         notifyDataSetChanged();
     }
-
+*/
 
 }
 

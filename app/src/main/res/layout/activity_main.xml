@@ -34,11 +34,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <EditText
+        <SearchView
             android:layout_width="290dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:hint="Search"
+            android:iconifiedByDefault="false"
+            android:queryHint="Search Here"
             android:id="@+id/cari"
             />
         <android.support.v7.widget.AppCompatButton
