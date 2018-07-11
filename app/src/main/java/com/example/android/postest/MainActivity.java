@@ -25,7 +25,10 @@ import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+
 import android.widget.TextView;
+
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.android.postest.Adapter.BarangAdapter;
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     BarangTransaksiAdapter adapter;
     String namaBarang;
     NavigationView navigationView;
-    EditText search;
+    SearchView search;
     Toolbar toolbar;
     SQLite dbBarang;
     ArrayList<Barang> listBarang;
@@ -80,24 +83,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mCheckout = (AppCompatButton) findViewById(R.id.btnCheckout);
         scan =  (AppCompatButton) findViewById(R.id.btnScan);
         mCheckout.setTypeface(raleway);
-        search = (EditText) findViewById(R.id.cari);
+
         tvEmpty = (TextView) findViewById(R.id.emptyData);
+        search = (SearchView) findViewById(R.id.cari);
+
 
         //buat cari
-        search.addTextChangedListener(new TextWatcher() {
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+            public boolean onQueryTextSubmit(String query) {
+                return false;
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public boolean onQueryTextChange(String newText) {
 
-            }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                filter(s.toString());
+                adapter.getFilter().filter(newText);
+                return false;
             }
         });
 
@@ -306,7 +309,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(i);
     }
 
-    private void filter(String text){
+   /* private void filter(String text){
         ArrayList<Barang> filterList = new ArrayList<>();
         for (Barang item : listBarang){
             if (item.getNama().toLowerCase().contains(text.toLowerCase())){
@@ -321,15 +324,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tvEmpty.setVisibility(View.GONE);
         }
         adapter.filterList(filterList);
-    }
+    }*/
 
-    @Override
+   /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data!=null){
                     Barcode barcode = data.getParcelableExtra("barcode");
-                    /*barcodeResult.setText("Hasil Barcode : " + barcode.displayValue);*/
+                    *//*barcodeResult.setText("Hasil Barcode : " + barcode.displayValue);*//*
                     search.setText(barcode.displayValue);
                     Toast.makeText(getApplicationContext(),"Hasil Barcode " + barcode.displayValue,Toast.LENGTH_SHORT).show();
                 } else {
@@ -339,6 +342,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else{
             super.onActivityResult(requestCode, resultCode, data);
         }
-    }
+    }*/
 
 }
