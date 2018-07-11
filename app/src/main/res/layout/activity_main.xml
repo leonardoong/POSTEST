@@ -63,15 +63,6 @@
 
             </android.support.v7.widget.RecyclerView>
 
-            <TextView
-                android:id="@+id/emptyData"
-                android:textSize="18sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Barang tidak ditemukan atau stok tidak ada"
-                android:gravity="center_horizontal"
-                android:visibility="gone"/>
-
 
             <LinearLayout
                 android:id="@+id/my_view"

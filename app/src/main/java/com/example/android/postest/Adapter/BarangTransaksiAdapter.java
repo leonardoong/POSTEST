@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.support.v7.widget.CardView;
 import android.widget.Toast;
@@ -35,6 +36,8 @@ public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksi
     private List<Barang> list;
     private List<Barang> listFull;
     private SetOnItemRecycleListener mItemClickListener;
+    private TextView tvEmpty;
+    private CardView cv;
 
     @Override
     public Filter getFilter() {
@@ -47,7 +50,7 @@ public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksi
             List<Barang> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(listFull);
-                Toast.makeText(cntx, "Data tidak ditemukan atau stok tidak ada", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(cntx, "Data tidak ditemukan atau stok tidak ada", Toast.LENGTH_SHORT).show();
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 ;
@@ -55,7 +58,9 @@ public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksi
                     if (barang.getNama().toLowerCase().contains(filterPattern)) {
                         filteredList.add(barang);
                     }
+
                 }
+
 
             }
             FilterResults results = new FilterResults();
@@ -74,7 +79,8 @@ public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksi
         //deklarasi variable yang akan digunakan
         private TextView namaBarang, hargaBarang;
         private ImageView gambarBarang;
-        private CardView cardv;
+        //private CardView cardv;
+
         private holder(View itemView){
             super(itemView);
 
@@ -82,9 +88,11 @@ public class BarangTransaksiAdapter extends RecyclerView.Adapter<BarangTransaksi
             hargaBarang = itemView.findViewById(R.id.txtHarga);
             namaBarang = itemView.findViewById(R.id.txtTBarang);
             gambarBarang = itemView.findViewById(R.id.ivTBarang);
-            cardv = itemView.findViewById(R.id.cardViewTransaksi);
+            //cardv = itemView.findViewById(R.id.cardViewTransaksi);
             Typeface roboto = Typeface.createFromAsset(itemView.getContext().getAssets(), "fonts/Roboto-Regular.ttf");
             namaBarang.setTypeface(roboto);
+            //tvEmpty = itemView.findViewById(R.id.emptyData);
+            cv = itemView.findViewById(R.id.cardViewTransaksi);
 
         }
     }

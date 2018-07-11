@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         scan =  (AppCompatButton) findViewById(R.id.btnScan);
         mCheckout.setTypeface(raleway);
 
-        tvEmpty = (TextView) findViewById(R.id.emptyData);
+        //tvEmpty = (TextView) findViewById(R.id.emptyData);
         search = (SearchView) findViewById(R.id.cari);
 
 
@@ -98,8 +98,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onQueryTextChange(String newText) {
 
-
                 adapter.getFilter().filter(newText);
+
                 return false;
             }
         });
